@@ -1,0 +1,741 @@
+% This is paper draft
+% edited by Haoruo Peng
+% Date: 2013.5.27
+\documentclass{llncs}
+\usepackage{llncsdoc}
+\usepackage{amsmath, amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{bbding}
+
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\bwep}{\mathbf{w}^{\varepsilon}}
+\newcommand{\bwfly}{\tilde{\mathbf{w}}}
+\newcommand{\bwavg}{\mathbf{wavg}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\buprev}{\mathbf{uprev}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\bxi}{\mathbf{\xi}}
+\newcommand{\dotwxb}{{\mathbf{w}}^{\mathbf{T}}\mathbf{x}_{i}+b}
+\newcommand{\sumt}{\sum_{t=1}^{T} }
+\newcommand{\lc}{\left(}
+\newcommand{\rc}{\right)}
+\newcommand{\li}{\lc i\rc}
+\newcommand{\lj}{\lc j\rc}
+\newcommand{\tspace}{\hspace*{2em}}
+\newcommand{\tspaces}{\hspace*{1.5em}}
+\newcommand{\comment}{\textcolor{red}}
+\newcommand{\ti}[1]{\tilde{#1}}
+\newcommand{\indep}{{\;\bot\!\!\!\!\!\!\bot\;}}
+
+\def\A{{\bf A}}
+\def\a{{\bf a}}
+\def\B{{\bf B}}
+\def\C{{\bf C}}
+\def\c{{\bf c}}
+\def\D{{\bf D}}
+\def\d{{\bf d}}
+\def\E{{\bf E}}
+\def\e{{\bf e}}
+\def\f{{\bf f}}
+\def\K{{\bf K}}
+\def\H{{\bf H}}
+\def\G{{\bf G}}
+\def\I{{\bf I}}
+\def\R{{\bf R}}
+\def\X{{\bf X}}
+\def\Y{{\bf Y}}
+\def\Q{{\bf Q}}
+\def\s{{\bf s}}
+\def\S{{\bf S}}
+\def\x{{\bf x}}
+\def\y{{\bf y}}
+\def\z{{\bf z}}
+\def\Z{{\bf Z}}
+\def\M{{\bf M}}
+\def\m{{\bf m}}
+\def\n{{\bf n}}
+\def\U{{\bf U}}
+\def\u{{\bf u}}
+\def\V{{\bf V}}
+\def\v{{\bf v}}
+\def\W{{\bf W}}
+\def\w{{\bf w}}
+\def\0{{\bf 0}}
+\def\1{{\bf 1}}
+
+\def\AM{{\mathcal A}}
+\def\FM{{\mathcal F}}
+\def\TM{{\mathcal T}}
+\def\UM{{\mathcal U}}
+\def\XM{{\mathcal X}}
+\def\YM{{\mathcal Y}}
+\def\NM{{\mathcal N}}
+\def\OM{{\mathcal O}}
+\def\IM{{\mathcal I}}
+\def\GM{{\mathcal G}}
+\def\RB{{\mathbb R}}
+
+\def\tx{\tilde{\bf x}}
+\def\ty{\tilde{\bf y}}
+\def\tz{\tilde{\bf z}}
+\def\hd{\hat{d}}
+\def\HD{\hat{\bf D}}
+\def\hx{\hat{\bf x}}
+
+\def\alp{\mbox{\boldmath$\alpha$\unboldmath}}
+\def\bet{\mbox{\boldmath$\beta$\unboldmath}}
+\def\epsi{\mbox{\boldmath$\epsilon$\unboldmath}}
+\def\etab{\mbox{\boldmath$\eta$\unboldmath}}
+\def\ph{\mbox{\boldmath$\phi$\unboldmath}}
+\def\pii{\mbox{\boldmath$\pi$\unboldmath}}
+\def\Ph{\mbox{\boldmath$\Phi$\unboldmath}}
+\def\Ps{\mbox{\boldmath$\Psi$\unboldmath}}
+\def\tha{\mbox{\boldmath$\theta$\unboldmath}}
+\def\Tha{\mbox{\boldmath$\Theta$\unboldmath}}
+\def\muu{\mbox{\boldmath$\mu$\unboldmath}}
+\def\Si{\mbox{\boldmath$\Sigma$\unboldmath}}
+\def\Gam{\mbox{\boldmath$\Gamma$\unboldmath}}
+\def\Lam{\mbox{\boldmath$\Lambda$\unboldmath}}
+\def\De{\mbox{\boldmath$\Delta$\unboldmath}}
+\def\vps{\mbox{\boldmath$\varepsilon$\unboldmath}}
+
+\def\Ncal{\mathcal{N}}
+\def\argmax{\mathop{\rm argmax}}
+\def\argmin{\mathop{\rm argmin}}
+
+\def\sgn{\mathrm{sgn}}
+\def\tr{\mathrm{tr}}
+\def\rk{\mathrm{rank}}
+\def\diag{\mathsf{diag}}
+\def\vect{\mathsf{vec}}
+\def\etal{{\em et al.\/}\,}
+
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{definition}{Definition}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{example}{Example}
+
+\begin{document}
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Massively Parallel Learning for Penalized Logistic Regression Model}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{Massively Parallel Learning for Penalized Logistic Regression Model}
+
+%
+%\author{Haoruo Peng\inst{1, 2}  \and Ding Liang\inst{1} \and Cyrus Choi\inst{1} \and Edward Y. Chang\inst{1} \and Yin Zhao\inst{2}}
+%
+%\authorrunning{Haoruo Peng \and Ding Liang \and Cyrus Choi \and Edward Y. Chang \and Yin Zhao}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+%\institute %
+%{
+%\inst{}
+%HTC Research, Beijing, China 100084 \\
+%\and
+%\inst{}
+%Department of Computer Science and Technology\\
+%Tsinghua University, Beijing, China 100084
+%\email{penghaoruo@hotmail.com ...}
+%}
+%
+%\toctitle{Lecture Notes in Computer Science}
+%\tocauthor{Authors' Instructions}
+\maketitle
+
+\begin{abstract}
+Penalized logistic regression (PLR) is a widely used supervised learning model.
+This paper addresses the issue of computational efficiency for solving PLR in big data scenario.
+We focus on algorithm level and employ three different parallel computation systems with three different types of parallel algorithms to efficiently improve scalability.
+Hadoop, Mahout and Spark are existing well-known parallel frameworks that can be implemented with large scale machine learning algorithms.
+Parallel gradient Descent stochastic gradient descent are two existing state-of-art algorithms for parameter optimization in PLR.
+We also present a novel parallel sublinear method and make a comparison between these algorithms implemented on different systems.
+As the outcome shows, we claim parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR for general purpose.
+Moreover, fault tolerance can be provided for those lengthy distributed computations both on algorithm level and system level.
+%We have released all experiment codes to open source at https://github.com/penghaoruo/PPLR.
+\end{abstract}
+
+\section{Introduction} \label{sec:int}
+The penalized logistic regression (PLR) model~\cite{HastieBook:SL} plays an important role in machine learning and data mining.
+The model serves for classification problems, and enjoys a substantial body of supporting theories and algorithms.
+PLR is competitive with the support vector machines (SVMs) \cite{Vapnik:1998}, because it has both high accuracy and interpretability (PLR can directly estimate a conditional class probability).
+Thus, a binary classification problem modeled by PLR can be easily extended to a multi-classification problem.
+We will focus on the binary PLR model in the following.
+A wide variety of other classification algorithms exist in the literature.
+One might ask why we are motivated to use PLR for classification instead of other usual candidates.
+Our motivation for exploring PLR as a fast classifier to be used in data mining applications is its maturity.
+It has a statistical foundation which, in the right circumstances, could be used to extend classification results into a deeper analysis.
+
+Recently, large-scale applications have emerged from many modern massive datasets.
+A key characteristic of these applications is that the size of their training data is very large and data dimensionality is very high.
+For example, in medical diagnostic applications~\cite{tsumoto2004mining}, both doctors and patients would like to take the advantage of millions of records over hundreds of attributes. More evidently, search engines on texts or multimedia data must handle data volume in the billion scale and each data instance is characterized by a feature space of thousands of dimensions~\cite{genkin2007large}.
+Large data volume and high data dimensionality pose computational challenges to machine learning problems.
+Especially, PLR is a widely used model in algorithms like PageRank~\cite{page1999pagerank} and Anti-spam Filtering~\cite{androutsopoulos2000evaluation}.
+
+We tackle these challenges on algorithm level and fully exploit the benefits of parallelization.
+When developing parallel algorithms for PLR, it is unavoidable to come across the question of choosing which parallel system to use and which parallel framework to employ.
+After a thorough survey, we choose three unique and best-known systems to test: Hadoop~\cite{white2012hadoop}, Mahout~\cite{mahoutscalable} and Spark~\cite{zaharia2010spark}.
+Hadoop uses HDFS~\cite{borthakur2008hdfs} and MapReduce~\cite{dean2008mapreduce}, Mahout runs on Apache Hadoop~\cite{gropp1999using} and make improvements in the low level code, and Spark features for iterative algorithms and also supports HDFS.
+We will introduce the features of them separately in detail in related work section.
+
+In sequential algorithms for PLR, a classical way is to turn to stochastic approximation methods.
+Stochastic approximation methods, such as stochastic gradient descent~\cite{zhang2004solving} and stochastic dual averaging~\cite{xiao2010dual}, obtain optimal generalization guarantees with only a single pass or a small number of passes over the data.
+Therefore, they can achieve a desired generalization with runtime linear to the dataset size.
+A best-known method of those is stochastic gradient descent. This works in an online fashion. We view the sampled data points as the come-in data stream. It is extremely hard to parallelize, but it is blazingly fast.
+If we take a step back and go back to the general gradient descent to solve PLR, we can find that it can be actually embarrassingly parallel. We can take in all the data at the same iteration and just compute the gradient in a Map-Reduce fashion.
+We can further speed up the runtime by employing sublinear algorithms~\cite{peng2012sublinear} for PLR via the use of stochastic approximation idea.
+This methods access a single feature of training vectors instead of entire training vectors at each iteration.
+We propose a parallel version of this algorithm and achieve the result of comparable accuracy while faster convergent.
+	
+The rest of the paper is organized as follows:
+Section~\ref{sec:rew} discusses some related work and three different systems.
+In Section~\ref{sec:plr}, we review the penalized logistic regression model.
+In Section~\ref{sec:framework}, we present the parallel framework of all three different algorithms for PLR.
+Section~\ref{sec:experiment} describes the datasets and the baseline of our experiments and presents the experimental results.
+Finally, we offer our concluding remarks in Section~\ref{sec:concl}.
+
+\section{Related Work} \label{sec:rew}
+
+In big data scenario, large datasets require us to develop machine learning algorithms towards a more efficient and more parallelized end.
+Researchers have already done much work to cater for the needs of massive datasets.
+Early work like PSVM (Parallel Support Vector Machines)~\cite{chang2011psvm} employed an approximation matrix decomposition method based on row selections to reduce the memory when running the algorithm.
+It can then increase the number of participated parallel computation nodes to several hundreds.
+Later, the work of PLDA (Parallel Latent Dirichlet Allocation)~\cite{wang2009plda} further improve the computational efficiency through the use of sampling methods.
+The proposed parallel algorithm in Hadoop is robust, for it has fault tolerance of machines, taking the advantage of Hadoop.
+Recently, the work by Dean et al.\cite{le2011building} showed that the advantage of parallelization is fully taken in deep learning algorithms.
+It pushed the limits of parallel computational nodes to a hundred-million level, and in the meantime, achieved a best learning performance ever.
+Besides Hadoop, there are many other trials on parallelization in machine learning.
+GraphLab~\cite{kyrola2012graphchi}, a recent developed tool in CMU\textit{(Carnegie Mellon University)} for large-scale machine learning, tried to tackle with efficiency and scalability problems of machine leaning algorithms when applied to graphs.
+
+Three computing platforms we are working on each features for its own advantage in implementing machine learning algorithms.
+The Apache Hadoop~\cite{white2012hadoop} software library is a framework that allows for the distributed processing of large data sets across clusters of computers using simple programming models. It is designed to scale up from single servers to thousands of machines, each offering local computation and storage. Rather than rely on hardware to deliver high-availability, the library itself is designed to detect and handle failures at the application layer, so delivering a highly-available service on top of a cluster of computers, each of which may be prone to failures.
+It is an open-source software framework that supports data-intensive distributed applications, licensed under the Apache v2 license. It supports the running of applications on large clusters of commodity hardware. Hadoop was derived from Google's MapReduce and Google File System (GFS) papers. The Hadoop framework transparently provides both reliability and data motion to applications. Hadoop implements a computational paradigm named MapReduce~\cite{dean2008mapreduce}, where the application is divided into many small fragments of work, each of which may be executed or re-executed on any node in the cluster.
+The MapReduce paradigm applies to problems where the input is a set of key-value pairs.
+A \textit{map} function turns these key-value pairs into other intermediate key-value pairs. A \textit{reduce} function merges in some way all values for each intermediate key to produce output.
+Actually, many problems can be framed as MapReduce problems, or as a series of them. The paradigm also lends itself quite well to parallelization: all of the processing is independent and so can be split across many machines.
+In addition, it provides a distributed file system that stores data on the compute nodes, providing very high aggregate bandwidth across the cluster.
+Both map/reduce and the distributed file system are designed so that node failures are automatically handled by the framework.
+The entire Apache Hadoop platform is now commonly considered to consist of the Hadoop kernel, MapReduce and Hadoop Distributed File System (HDFS), as well as a number of related projects ¨C including Apache Hive, Apache HBase, and others. Hadoop is written in the Java programming language and is an Apache top-level project being built and used by a global community of contributors.
+
+The Apache Mahout~\cite{mahoutscalable} machine learning library's goal is to build scalable machine learning libraries. It is scalable to reasonably large data sets. Their core algorithms for clustering, classification and batch based collaborative filtering are implemented on top of Apache Hadoop using the map/reduce paradigm. The core libraries are highly optimized to allow for good performance also for non-distributed algorithms.
+It is also scalable to support business cases. Mahout is distributed under a commercially friendly Apache Software license. Currently Mahout supports mainly four use cases: Recommendation mining takes users' behavior and from that tries to find items users might like. Clustering takes e.g. text documents and groups them into groups of topically related documents. Classification learns from existing categorized documents what documents of a specific category look like and is able to assign unlabeled documents to the (hopefully) correct category. Frequent itemset mining takes a set of item groups (terms in a query session, shopping cart content) and identifies, which individual items usually appear together.
+Mahout currently supports many machine learning algorithms including collaborative filtering, user and item based recommenders, K-Means, fuzzy K-Means clustering, mean shift clustering, dirichlet process clustering, Latent Dirichlet Allocation, singular value decomposition, parallel frequent pattern mining, complementary naive bayes classifier, random forest decision tree based classifier.
+
+Spark~\cite{zaharia2010spark} was developed in the UC Berkeley AMPLab. It is an open source cluster computing system that aims to make data analytics fast ¡ª both fast to run and fast to write.
+To run programs faster, Spark provides primitives for in-memory cluster computing: a job can load data into memory and query it repeatedly much more quickly than with disk-based systems like Hadoop MapReduce.
+To make programming faster, Spark provides clean, concise APIs in Scala, Java and Python. Users can also use Spark interactively from the Scala and Python shells to rapidly query big datasets.
+Spark was initially developed for two applications where keeping data in memory helps: iterative algorithms, which are common in machine learning, and interactive data mining. In both cases, Spark can run up to 100x faster than Hadoop MapReduce. Spark is also the engine behind Shark, a fully Apache Hive-compatible data warehousing system that can run 100x faster than Hive. While Spark is a new engine, it can access any data source supported by Hadoop, making it easy to run over existing data.
+Spark is built on top of Mesos, a cluster operating system that lets multiple parallel applications share a cluster in a fine-grained manner and provides an API for applications to launch tasks on a cluster.
+This allows Spark to run alongside existing cluster computing frameworks, such as Mesos ports of Hadoop and MPI, and share data with them.
+In addition, building on Mesos greatly reduced the programming effort that had to go into Spark.
+The main abstraction in Spark is that of a resilient distributed dataset\textit{(RDD)}, which represents a read-only collection of objects partitioned across a set of machines that can be rebuilt if a partition is lost.
+Users can explicitly cache an RDD in memory across machines and reuse it in multiple MapReduce-like parallel operations.
+RDDs achieve fault tolerance through a notion of lineage: if a partition of an RDD is lost, the RDD has enough information about how it was derived from other RDDs to be able to rebuild just that partition.
+
+Recently, Clarkson et al. \cite{clarkson2010sublinear} proposed a new method by taking advantage of randomized algorithms.
+They presented sublinear-time approximation algorithms for optimization problems arising in machine learning, such as linear classifiers and minimum enclosing balls.
+The algorithm uses a combination of a novel sampling techniques and a new multiplicative update algorithm. They also proved lower bounds which show the running times to be nearly optimal on the unit-cost RAM model.
+Hazan et al. \cite{hazanbeating} exploited sublinear approximation approach to the linear SVM with $\ell_2$-penalty, from which we were inspired and borrowed some of the ideas (We generally refer to them as the ETN framework in Section~\ref{sec:framework}). Later on, Cotter et al. \cite{cotter2012kernelized} extended the work to kernelized SVM cases. In \cite{hazan2011optimal}, Hazan et al. applied the sublinear approximation approach for solving ridge ($\ell_2$-regularized) and lasso ($\ell_1$-regularized) linear regression. Garber and Hazan \cite{garberapproximating} developed the method in semidenfinite programming (SDP).
+
+\section{Penalized Logistic Regression Models and Sublinear Methods} \label{sec:plr}
+
+Logistic regression is a widely used method for solving classification problems.
+In this paper, we are mainly concerned with the binary classification problem.  	
+Suppose that we are given a set of training data $\XM=\{(\x_i, y_i): i=1, \ldots, n\}$ where $\x_i \in \RB^d$ are input samples and $y_i \in \{-1, 1\}$ are the corresponding labels.
+For simplicity, we let $\X=[{\x}_{1}, {\x}_{2}, \ldots, {\x}_n]^{T}$ and $\y=(y_1, y_2, \ldots, y_n)^T$.
+In the logistic regression model, the expected value of $y_i$ is given by
+\[
+P(y_i|\x_i)= \frac{1}{1+ \exp(- y_i(\x_i^T \w + b))} \triangleq g_i(y_i),
+\]
+where $\w=(w_1, \ldots, w_d)^T \in \RB^d$ is a regression vector and $b\in \RB$ is an offset term.
+
+\subsection{Penalized Logistic Regression Models}
+	
+We assume that $\w$ follows a Gaussian distribution with mean $\0$ and covariance matrix $\lambda \I_d$ where $\I_d$ is the $d{\times}d$ identity matrix, i.e. $\w \thicksim N(\0, \lambda \I_d)$.
+In this case, we can formulate the optimization problem as
+\begin{equation} \label{eqn:4}
+	\max_{\bw ,b} \; \Big\{F(\w, b| \XM) - \frac{\lambda}{2}  \|\bw\|_2^{2} \Big\}.
+\end{equation}
+(\ref{eqn:4}) shows us that the problem reduces to an optimization problem with an $\ell_2$-penalty.
+	
+In another case, we impose a Laplace prior for $\w$, whose density is given by
+\[	
+\log\,p\lc\bw \rc=d\,\log\frac{\gamma}{2}-\gamma{\|\bw\|}_{1}.
+\]
+With this prior, we get an optimization problem with the $\ell_1$-penalty.
+\begin{equation} \label{eqn:5}
+	\max_{\bw ,b} \;  \big\{F(\w, b|\XM)- \gamma{\|\bw \|}_{1}\big\}.	
+\end{equation}
+
+The advantage of $\ell_1$-penalty over $\ell_2$-penalty is its utility in sparsity modeling \cite{tibshirani1996regression}.
+Thus, $\ell_1$-penalty logistic regression can serve for both classification and feature selection simultaneously.
+
+\subsection{Sublinear Algorithms}
+
+The framework of sublinear algorithms is a hybrid method to handle hard margin and soft margin separately and simultaneously.
+It enjoys the property of fast convergence for both hard margin and soft margin.
+
+Each iteration of the method works in two steps.
+The first one is the \textit{stochastic primal update}:
+\begin{enumerate}
+\item[{(1)}] \; An instance $i\in \{1,\ldots, n\}$ is chosen according to a probability vector $\bp$;
+\item[{(2)}] \; The primal variable $\bw$ is updated according to the derivative of $f_i(\bw,b)$ and the soft margin, via an online update with regret.
+\end{enumerate}
+
+The second one is the \textit{stochastic dual update}:
+\begin{enumerate}
+\item[{(1)}] \; A stochastic estimate of $f_i(\bw,b)$ plus the soft margin is obtained, which can be computed in $O(1)$ time per term;
+\item[{(2)}] \; The probability vector $\bp$ is updated based on the above computed terms by using the \textit{Multiplicative Updates} (MW) framework~\cite{arora2005multiplicative} for online optimization over the simplex.
+\end{enumerate}
+
+\subsection{Sequential Sublinear Algorithm for Logistic Regression} \label{sec:l2alg}
+
+We use the following notations.
+
+$clip\lc \cdot \rc$ is a projection function defined as follows:
+\[
+clip\lc a,b \rc \triangleq \max \lc \min \lc a,b \rc ,-b\rc \,\,\,\,\,\, a,b \in \mathbb{R}.
+\]
+
+$\sgn \lc \cdot \rc$ is the sign function; namely,
+\[
+\sgn \lc x \rc =
+\begin{cases}
+	+1 & \text{ if } x>0  \\
+	0  & \text{ if } x=0  \\
+	-1 & \text{ if } x<0.
+\end{cases}
+\]
+
+$g\lc \cdot \rc$ is the logistic function; namely,
+\[
+g \lc x \rc=\frac{1}{1+e^{-x}}
+\]
+
+In Algorithm~1, we give the sequential sublinear approximation procedure for logistic regression.	
+	\begin{table} [ht]
+	\begin{tabular}{l}
+	\hline\noalign{\smallskip}
+	\textbf{Algorithm 1} SLLR \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+	1:	Input parameters: $\varepsilon, \nu, X, Y$ \\
+	2:	Initialize parameters: $T, \eta, {\mathbf{u}}_{0}, {\bw}_{1}, {\mathbf{\bq}}_{1}, {b}_{1}$\\
+	3:	Iterations: $t=1 \sim T$ \\
+	4:	\tspace ${\bp}_{t}\leftarrow{\bq}_{t}/{\|{\bq}_{t}\|}_{1}$ \\
+	5:  \tspace Choose ${i}_{t}\leftarrow i$ with probability $\bp(i)$ \\
+	6:	\tspace $coef\leftarrow{y}_{{i}_{t}}g\lc-{y}_{{i}_{t}}\lc {{\bw}_{t}}^{T}{\mathbf{x}}_{i_t}+{b}_{t} \rc\rc$ \\
+	7:	\tspace ${\bu}_{t}\leftarrow {\bu}_{t-1}+\frac{coef}{\sqrt{2T}}{\mathbf{x}}_{{i}_{t}}$ \\
+	8:	\tspace ${\bw}_{t}\leftarrow {\bu}_{t}/\max \left\{1,\|{\bu}_{t}\|_2 \right\}$ \\
+    9:  \tspace ${b}_{t}\leftarrow \sgn\lc {{\bp}_{t}}^{T}\mathbf{y}\rc$ \\
+	10:	\tspaces Choose ${j}_{t}\leftarrow j$ with probability ${{\bw}_{t}\lj}^{2}/{\|{\bw}_{t}\|_2}^{2} $ \\
+	11:	\tspaces Iterations: $i=1 \sim n$ \\
+	12:	\tspaces\tspace $\sigma \leftarrow \mathbf{x}_{i} \lc {j}_{t}\rc{\|{\bw}_{t}\|_2}^{2}/{\bw}_{t}\lc {j}_{t} \rc+{\bxi}_{t}\li+{y}_{i}{b}_{t}$ \\
+	13:	\tspaces\tspace $\hat{\sigma} \leftarrow clip\lc \sigma,1/\eta \rc$ \\
+	14:	\tspaces\tspace ${\bq}_{t+1}\li \leftarrow {\bp}_{t}\li\lc 1-\eta\hat{\sigma} + {\eta}^{2}{\hat{\sigma}}^{2} \rc$ \\
+	15:	Output: $\bar{\bw}=\frac{1}{T}\sum_{t}{\bw}_{t},\bar{b}=\frac{1}{T}\sum_{t}{b}_{t}$ \\
+	\hline
+	\end{tabular} 	
+	\label{alg:1}
+	\end{table}
+
+\section{Parallel Framework of Learning Algorithms for PLR} \label{sec:framework}
+
+\subsection{Parallel Sublinear algorithms in Hadoop (MapReduce)}
+    In this section, we develop an approach to solve sublinear learning for penalized logistic regression using the architecture of MapReduce.
+	\begin{table}[ht]
+	\begin{tabular}{l}
+	\hline\noalign{\smallskip}
+	\textbf{Algorithm 2} PSUBPLR-MR \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  Input parameters: $\varepsilon, \nu~or~\gamma, X, Y, n, d$ \\
+    2:	Initialize parameters: $T, \eta, {\mathbf{u}}_{0}, {\bw}_{1}, {\mathbf{\bq}}_{1}, {b}_{1}$\\
+    3:	Iterations: $t=1 \sim T$ \\
+    4:  \tspace $\bw_t \rightarrow$ storeInHdfsFile("hdfs://paraw").addToDistributedCache() \\
+    5:  \tspace $\bp_t \rightarrow$ storeInHdfsFile("hdfs://parap").addToDistributedCache() \\
+    6:  \tspace conf\_primal $\leftarrow$ new Configuration() \\
+    7:  \tspace job\_primal $\leftarrow$ new MapReduce-Job(conf\_primal) \\
+    8:  \tspace conf\_primal.passParameters($T, n, d, b_t$) \\
+    9:  \tspace job\_primal.setInputPath("...") \\
+	10:	\tspaces job\_primal.setOutputPath("tmp/primal$t$") \\
+    11: \tspaces job\_primal.run() \\
+    12: \tspaces ($\bw_{t+1}, b_{t+1}$)$\leftarrow$PrimalUpdate($\bw_t, b_t$) \\
+    13: \tspaces Choose $j_t \leftarrow j$ with probability ${{\bw}_{t+1}\lj}^{2}/{\|{\bw}_{t+1}\|_2}^{2} $ \\
+    14: \tspaces $\bw_{t+1} \rightarrow$ storeInHdfsFile("hdfs://paraw").addToDistributedCache() \\
+    15: \tspaces conf\_dual $\leftarrow$ new Configuration() \\
+    16: \tspaces job\_dual $\leftarrow$ new MapReduce-Job(conf\_dual) \\
+    17: \tspaces conf\_dual.passParameters($d, jt, b_{t+1}, \eta$) \\
+    18: \tspaces job\_primal.setInputPath("...") \\	
+    19:	\tspaces job\_dual.setOutputPath("tmp/dual$t$") \\
+    20: \tspaces job\_dual.run() \\	
+    21: \tspaces $\bp_{t+1}$$\leftarrow$DualUpdate($\bp_t$) \\
+    22: Output: $\bar{\bw}=\frac{1}{T}\sum_{t}{\bw}_{t},\bar{b}=\frac{1}{T}\sum_{t}{b}_{t}$ \\
+	\hline
+	\end{tabular}
+	\end{table}
+
+    \begin{table}[ht]
+	\begin{tabular}{l}
+	\hline\noalign{\smallskip}
+	\textbf{Procedure} Primal-Map(inputfile) \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  ~Configuration.getParameters($T, n, d, b_t$) \\
+    2:  ~$\bw_t \leftarrow$ readCachedHdfsFile("paraw") \\
+    3:  ~$\bp_t \leftarrow$ readCachedHdfsFile("parap") \\
+    4:  ~$i_t \leftarrow$ parseRowIndx(inputfile)\\
+    5:  ~$\mathbf{x}_{i_t} \leftarrow$ parseRowVector(inputfile) \\
+    6:  ~$y_{i_t} \leftarrow$ parseRowLabel(inputfile) \\
+    7:  ~$r \leftarrow$ \textit{random(seed)} \\
+    8:  ~\textbf{if} $\bp_t(i_t) > \frac{r}{n}$ \\
+    9:  ~\tspace $tmp\_coef=\bp_t(i_t){y}_{{i}_{t}}g\lc-{y}_{{i}_{t}}\lc {{\bw}_{t}}^{T}{\mathbf{x}}_{i_t}+{b}_{t} \rc\rc$ \\
+    10: \textbf{else} \\
+    11: \tspace $tmp\_coef=0$ \\
+    12: Iterations: $j=1 \sim d$ \\
+    13: \tspace Set $key \leftarrow j$ \\
+    14: \tspace Set $value \leftarrow \frac{tmp\_coef}{\sqrt{2T}}\mathbf{x}_{i_t}(j) $ \\
+    15: \tspace \textbf{Output}(key, value) \\
+	\hline
+	\end{tabular}
+	\end{table}
+
+    \begin{table}[ht]
+	\begin{tabular}{l}
+	\hline\noalign{\smallskip}
+	\textbf{Procedure} Primal-Reduce(key\_in, value\_in) \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  $key\_out \leftarrow key\_in$ \\
+    2:  $value\_out \leftarrow \sum_{for~same~key\_in}{value\_in} $ \\
+    3:  \textbf{Output}(key\_out, value\_out) \\
+	\hline
+	\end{tabular}
+	\end{table}
+
+    \begin{table}[ht]
+	\begin{tabular}{l}
+	\hline\noalign{\smallskip}
+	\textbf{Procedure} PrimalUpdate($\bw_t, b_t$) \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  $\Delta \bw_t \leftarrow$ readFromHdfsFile("tmp/primal$t$") \\
+    2:  $\bw_{t+1} \leftarrow \bw_t+\Delta \bw_t$ \\
+	3:	${\bw}_{t+1}\leftarrow {\bw}_{t+1}/\max \left\{1,\|{\bw}_{t+1}\|_2 \right\}$ \\
+    4:  ${b}_{t+1}\leftarrow \sgn\lc {{\bp}_{t}}^{T}\mathbf{y}\rc$ \\
+	\hline
+	\end{tabular}
+	\end{table}
+
+    \begin{table}[ht]
+	\begin{tabular}{l}
+	\hline\noalign{\smallskip}
+	\textbf{Procedure} Dual-Map(inputfile) \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  ~Configuration.getParameters($d, j_t, b_{t+1}, \eta$) \\
+    2:  ~$\bw_{t+1} \leftarrow$ readCachedHdfsFile("paraw") \\
+    3:  ~$i_t \leftarrow$ parseRowIndx(inputfile)\\
+    4:  ~$\mathbf{x}_{i_t} \leftarrow$ parseRowVector(inputfile) \\
+    5:  ~$y_{i_t} \leftarrow$ parseRowLabel(inputfile) \\
+    6:  ~$\sigma \leftarrow \mathbf{x}_{i_t} \lc {j}_{t}\rc{\|{\bw}_{t+1}\|_2}^{2}/{\bw}_{t+1}\lc {j}_{t} \rc+{y}_{i_t}{b}_{t+1}$ \\
+	7:	~$\hat{\sigma} \leftarrow clip\lc \sigma,1/\eta \rc$ \\
+	8:	~$res \leftarrow 1-\eta\hat{\sigma} + {\eta}^{2}{\hat{\sigma}}^{2} $ \\
+    9:  ~$key \leftarrow i_t$ \\
+    10: $value \leftarrow res $ \\
+    11: \textbf{Output}(key, value) \\
+	\hline
+	\end{tabular}
+	\end{table}
+
+    \begin{table}[ht]
+	\begin{tabular}{l}
+	\hline\noalign{\smallskip}
+	\textbf{Procedure} DualUpdate($\bp_t$) \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  $\mathbf{var} \leftarrow$ readFromHdfsFile("tmp/dual$t$") \\
+    2:  Iterations: $j=1 \sim n$ \\
+    3:  \tspace $\bp_{t+1}(j) \leftarrow \bp_t(j)*\mathbf{var}(j)$ \\
+	\hline
+	\end{tabular}
+	\end{table}
+
+    \comment{Will add more on algorithm design explanation later in next version of draft}
+    
+    \comment{1: Parameter passing Issues}
+    
+    \comment{2: L1 and L2 small changes}
+    
+    \comment{3: code details to cater to sparsity}
+    
+    \comment{4: A possible level2 parallelization}
+    
+    \comment{5: The randomization design in primal map}
+    
+    \comment{Maybe a graph to illustrate sequential part and parallelization part}
+
+\subsection{Parallel Sublinear algorithms in Spark}
+    \begin{table}[ht]
+	\begin{tabular}{l}
+    \hline\noalign{\smallskip}
+	\textbf{Algorithm 3} PSUBPLR-SPARK \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  ~Input parameters: $\varepsilon, \nu~or~\gamma, X, Y, n, d$ \\
+    2:	~Initialize parameters: $T, \eta, {\mathbf{u}}_{0}, {\bw}_{1}, {\mathbf{\bq}}_{1}, {b}_{1}$\\
+    3:  ~points $\leftarrow$ spark.textFile(inputfile).map(parsePoint()).cache() \\
+    4:  ~Iterations: $t=1 \sim T$ \\
+    5:  ~\tspace gradient $\leftarrow$ points.map($(\frac{1}{1+e^{-y((\bw^T \textbf{x})+b)}}-1) * y * \bp [index]$).reduce( \_ + \_ ) \\
+    6:  ~\tspace ($\bw_{t+1}, b_{t+1}$)$\leftarrow$PrimalUpdate($\bw_t, b_t$) \\
+    7:  ~\tspace Choose $j_t \leftarrow j$ with probability ${{\bw}_{t+1}\lj}^{2}/{\|{\bw}_{t+1}\|_2}^{2} $ \\
+    8:  ~\tspace pAdjust $\leftarrow$ points.map(MW-Update()).reduce(copy()) \\
+    9:  ~\tspace $\bp_{t+1}$$\leftarrow$DualUpdate($\bp_t$)  \\
+    10: \textbf{Output}($\bw, b$) \\
+    \hline
+    \end{tabular}
+	\end{table}
+
+    \comment{Will add more on algorithm design explanation later in next version of draft}
+
+    \comment{1: Parsed Data Structure Design}
+
+    \comment{2: L1 and L2 small changes}
+
+    \comment{3: code details to cater to sparsity}
+
+    \comment{4: Emphasis on .cahche() }
+
+    \comment{5: Similarity with PSUBPLR-MR} 
+
+\subsection{Parallel Gradient Descent in Spark}
+    \begin{table}[ht]
+	\begin{tabular}{l}
+    \hline\noalign{\smallskip}
+	\textbf{Algorithm 4} PGDPLR-SPARK \\
+	\noalign{\smallskip}
+	\hline
+	\noalign{\smallskip}
+    1:  Input parameters: $\varepsilon, \nu~or~\gamma, X, Y, n, d$ \\
+    2:	Initialize parameters: $T, \eta, {\mathbf{u}}_{0}, {\bw}_{1}, {\mathbf{\bq}}_{1}, {b}_{1}$\\
+    3:  points $\leftarrow$ spark.textFile(inputfile).map(parsePoint()).cache() \\
+    4:  Iterations: $t=1 \sim T$ \\
+    5:  \tspace gradient $\leftarrow$ points.map($(\frac{1}{1+e^{-y((\bw^T \textbf{x})+b)}}-1) * y * \bp [index]$).reduce( \_ + \_ ) \\
+    6:  \tspace $\bw_{t+1} = \bw_t - gradient * \textbf{x}$ \\
+    7:  \tspace $b = b - gradient$ \\
+    8:  \textbf{Output}($\bw, b$) \\
+    \hline
+    \end{tabular}
+	\end{table}
+
+    \comment{Will add more on algorithm design explanation later in next version of draft}
+
+    \comment{1: L1 and L2 small changes}
+
+    \comment{2: Similarity with PSUBPLR-SPARK} 
+
+\subsection{Online Stochastic Gradient Descent in Mahout}
+Though SGD is an inherently sequential algorithm, it is blazingly fast and thus it is not a problem for Mahout's implementation to handle training sets of tens of millions of examples.
+With the down-sampling typical in many data-sets, this is equivalent to a dataset with billions of raw training examples.
+The SGD system in Mahout is an online learning algorithm which means that you can learn models in an incremental fashion and that you can do performance testing as your system runs. Often this means that you can stop training when a model reaches a target level of performance. The SGD framework includes classes to do on-line evaluation using cross validation (the CrossFoldLearner) and an evolutionary system to do learning hyper-parameter optimization on the fly (the AdaptiveLogisticRegression). The AdaptiveLogisticRegression system makes heavy use of threads to increase machine utilization. The way it works is that it runs 20 CrossFoldLearners in separate threads, each with slightly different learning parameters. As better settings are found, these new settings are propagating to the other learners.
+
+Because the SGD algorithms need to have fixed length feature vectors and because it is a pain to build a dictionary ahead of time, most SGD applications use the hashed feature vector encoding system that is rooted at FeatureVectorEncoder. The basic idea is that you create a vector, typically a RandomAccessSparseVector, and then you use various feature encoders to progressively add features to that vector. The size of the vector should be large enough to avoid feature collisions as features are hashed. There are specialized encoders for a variety of data types. You can normally encode either a string representation of the value you want to encode or you can encode a byte level representation to avoid string conversion. In the case of ContinuousValueEncoder and ConstantValueEncoder, it is also possible to encode a null value and pass the real value in as a weight. This avoids numerical parsing entirely in case you are getting your training data from a system like Avro.
+
+    \comment{Will add more on algorithm design explanation later in next version of draft}
+
+    \comment{1: Add presudo code}
+
+    \comment{2: function call by OnlineLogisticRegression() and corresponding feature vector encoding (will ask Liang Ding to help to write)} 
+	
+\section{Experiments} \label{sec:experiment}
+In this section, we conduct an empirical analysis of our algorithms.
+Particularly, we illustrate test errors in terms of accuracy and convergence in terms of MAP, both with respect to running time.
+
+We choose five open datasets to run all four test programs:	
+The	Simulated \textbf{2d} dataset has 2 features and 200 instances.
+The	\textbf{20NewsGroup} dataset has 16428 features and 1988 instances. We split it into a training set of 1800 instances and a test set of 188 instances.	
+The	third test dataset is the \textbf{Gisette}~\cite{guyon2004result} dataset, which has 5000 features and 7000 instances. We split it into a training set of 6000 instances and a test set of 1000 instances.
+The	fourth test dataset is the \textbf{ECUESpam}~\cite{DelanyKBS05} dataset, which has 100249 features and 10678 instances (after proper preprocessing). We split it into a training set of 9000 instances and a test set of 1687 instances.
+Finally, we have the \textbf{URL-Reputation}~\cite{ma2009identifying} dataset, which has 3231961 features and 2376130 instances. We split it into a training set of 2356130 instances and a test set of 20000 instances.
+We randomly repeat such split 20 times and our analysis is based on the average performance of 20 repetitions.
+
+\begin{table}[h]
+\centering
+\caption{Datasets}\label{tab:table1}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+    Name           & \# of Feat. & \# of Inst. & Sparsity & \# of Nonzeros & \# of +1 Inst. / \# of -1 Inst.\\
+\hline
+    2d             & 2             & 200            & ...      & ...                 & 1.000 \\
+\hline
+    20NewsGroup    & 16428         & 1988           & ...      & ...                 & 1.006 \\
+\hline
+    Gisette        & 5000          & 7000           & ...      & ...                 & 1.000 \\
+\hline
+    ECUESpam       & 100249        & 10678          & ...      & ...                 & 5.882 \\
+\hline
+    URL-Reputation & 3231961       & 2376130        & ...      & ...                 & ... \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Cluster Information}\label{tab:table2}
+\begin{tabular}{|c|c|}
+\hline
+    CPU Model & ... \\
+\hline
+    Number of node & 6 \\
+\hline
+    Number of CPU per node & 8\\
+\hline
+    Memory per node & 12G \\
+\hline
+    Disk per node & 2T \\
+\hline
+    Cache Size per node & ... \\
+\hline
+\end{tabular}
+\end{table}
+
+\comment{Will add more on experimental results later in next version of draft}
+
+\comment{1: add 5 line graphs;one dataset each;x:iteration number;y:accuracy;6 lines}
+
+\comment{2: add 1 bar graphs;x:different algorithms;y:time;one dataset as a group}
+
+\comment{3: add 5 line graphs;one dataset each;x:iteration number;y:MAP;6 lines}
+
+\comment{4: add 5 bar graph;one dataset each;x:number of node used;y:time per iteration;each algorithm as a group}
+
+\comment{5: Fault tolerance-add 1 bar graph;x:number of maps failed;y:time of the iteration;each algorithm as a group}
+
+Analysis points:
+
+1: liblinear always performs the best; It fully utilizes memory; Single machine does not require communication; Disadvantage: cannot run large datasets, eg. ...(detailed statistics)
+
+2: Mahout precision not good; especially for those positive and negative instances are not balanced datasets perform poorly; sequential algorithm that can run large data in an acceptable time; Advantage: running memory is low, scalability is good
+
+3: Sublinear methods' accuracy is acceptable.; Parallel-sublinear has a small drop in precision.
+
+4: Hadoop's big drawback: Most current cluster programming models are based on acyclic data flow from stable storage to stable storage. Benefits of data flow: runtime can decide where to run tasks and can automatically recover from failures. But acyclic data flow is inefficient. eg. ... (detailed statistics)
+
+5: Spark's in memory strategy; not to use hdfs file; system maybe even improved
+
+6: fast convergent
+
+7: In general, different algorithms for different datasets and system requirement. For general purpose, we recommend subSpark. 
+
+\begin{table}[h]
+\centering
+\caption{Accuracy Result}\label{tab:table3}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+           & 2d   & 20NewsGroup & Gisette & ECUESpam & URL-Reputation \\
+\hline
+Mahout     & 93.5\% & 71.3\% & 91.5\% & 85.2\% & 91.5\% \\
+\hline
+Liblinear  & 93.0\% & 92.0\% & 97.4\% & 97.1\% & 96.2\% \\
+\hline
+Sublinear  & 93.5\% & 91.5\% & 94.8\% & 92.3\% & 94.2\% \\
+\hline
+PSublinear & 93.5\% & 90.5\% & 94.6\% & 91.7\% & 93.8\% \\
+\hline
+Spark      & 93.5\% & 92.0\% & 97.0\% & 93.7\% & 96.0\% \\
+\hline
+subSpark   & 93.5\% & 90.5\% & 95.8\% & 91.7\% & 94.0\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Running Time Result}\label{tab:table4}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+           & 2d   & 20NewsGroup & Gisette & ECUESpam & URL-Reputation \\
+\hline
+Mahout     & 0.595s & 9.827s & 131.807s & 96.611s & 10100.209s \\
+\hline
+Liblinear  & 0.078s & 0.793s & 2.364s & 13.161s & 519.115s \\
+\hline
+Sublinear  & 1.761s & 20.046s & 130.451s & 1028.185s & 3248.473s \\
+\hline
+PSublinear & 120.186s & 1360.854s & 3687.941s & 11478.706s & 16098.260s \\
+\hline
+Spark      & 0.681s & 10.517s & 99.156s & 924.020s & 3615.780s \\
+\hline
+subSpark   & 1.325s & 8.571s & 89.094s & 796.802s & 2918.470s \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Fault Tolerance}\label{tab:table5}
+\begin{tabular}{|c|c|c|}
+\hline
+           & System Level & Algorithm Level \\
+\hline
+Mahout     & \Checkmark & \XSolid  \\
+\hline
+Liblinear  & \XSolid & \XSolid \\
+\hline
+Sublinear  & \XSolid & \Checkmark \\
+\hline
+PSublinear & \Checkmark & \Checkmark \\
+\hline
+Spark      & \Checkmark & \XSolid \\
+\hline
+subSpark   & \Checkmark &  \Checkmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\comment{Will add explanation for table 5 later in next version of draft}
+
+%Current URL-reputation Dataset Status
+%\begin{figure}[tb] \label{fig:01}
+%\center \includegraphics[height=5cm,width=10cm]{show1.png}
+%\caption{URL-reputation Dataset, Performance Result}
+%\end{figure}
+
+2d-dataset (separation graph)
+\begin{figure}[tb] \label{fig:02}
+\center \includegraphics[height=5cm,width=7cm]{show-2d.png}
+\caption{2d Dataset, Visual Result}
+\end{figure}
+
+\section{Conclusion} \label{sec:concl}
+%conclusion & contribution & future work
+In this paper we analyzed three approaches along with three systems to fitting PLR models for large-volume, high-dimensional data for classification.
+The dataset size ranges from KB to GB.
+Hadoop, Mahout and Spark are existing well-known parallel frameworks that can be implemented with large scale machine learning algorithms.
+Parallel gradient Descent stochastic gradient descent are two existing state-of-art algorithms for parameter optimization in PLR.
+We also present a novel parallel sublinear method and make a comparison between these algorithms implemented on different systems.
+As the outcome shows, we claim parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR for general purpose.
+Moreover, fault tolerance can be provided for those lengthy distributed computations both on algorithm level and system level.
+We discussed the balance between dataset size, choosing parallel system, and choosing parallel algorithm through concrete experimental results.
+Also, fault tolerance can be provided for those lengthy distributed computations both on algorithm level and system level.
+As the outcome shows, we recommend parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR for general purpose.
+
+\begin{small}
+\bibliographystyle{plain}
+\bibliography{mlpaper}
+\end{small}
+\end{document}

@@ -1,0 +1,174 @@
+\begin{thebibliography}{10}
+
+\bibitem{androutsopoulos2000evaluation}
+Ion Androutsopoulos, John Koutsias, Konstantinos~V Chandrinos, George
+  Paliouras, and Constantine~D Spyropoulos.
+\newblock An evaluation of naive bayesian anti-spam filtering.
+\newblock {\em arXiv preprint cs/0006013}, 2000.
+
+\bibitem{arora2005multiplicative}
+S.~Arora, E.~Hazan, and S.~Kale.
+\newblock The multiplicative weights update method: a meta algorithm and
+  applications.
+\newblock {\em Manuscript, 2005. Preliminary draft of paper available online at
+  http://www.cs.princeton.edu/~arora/pubs/MWsurvey.pdf}, 2005.
+
+\bibitem{borthakur2008hdfs}
+Dhruba Borthakur.
+\newblock Hdfs architecture guide.
+\newblock {\em Hadoop Apache Project. http://hadoop. apache.
+  org/common/docs/current/hdfs\_design. pdf}, 2008.
+
+\bibitem{chang2011psvm}
+Edward~Y Chang.
+\newblock Psvm: Parallelizing support vector machines on distributed computers.
+\newblock In {\em Foundations of Large-Scale Multimedia Information Management
+  and Retrieval}, pages 213--230. Springer, 2011.
+
+\bibitem{clarkson2010sublinear}
+K.L. Clarkson, E.~Hazan, and D.P. Woodruff.
+\newblock Sublinear optimization for machine learning.
+\newblock In {\em Proceedings of the 2010 IEEE 51st Annual Symposium on
+  Foundations of Computer Science}, pages 449--457. IEEE Computer Society,
+  2010.
+
+\bibitem{cotter2012kernelized}
+A.~Cotter, S.~Shalev-Shwartz, and N.~Srebro.
+\newblock The kernelized stochastic batch perceptron.
+\newblock {\em Arxiv preprint arXiv:1204.0566}, 2012.
+
+\bibitem{dean2008mapreduce}
+Jeffrey Dean and Sanjay Ghemawat.
+\newblock Mapreduce: simplified data processing on large clusters.
+\newblock {\em Communications of the ACM}, 51(1):107--113, 2008.
+
+\bibitem{DelanyKBS05}
+S.~J. Delany, P.~Cunningham, A.~Tsymbal, and L.~Coyle.
+\newblock A case-based technique for tracking concept drift in spam filtering.
+\newblock {\em Knowledge-Based Systems}, 18(4--5):187--195, 2005.
+
+\bibitem{garberapproximating}
+D.~Garber and E.~Hazan.
+\newblock Approximating semidefinite programs in sublinear time.
+\newblock In {\em Advances in Neural Information Processing Systems}, 2011.
+
+\bibitem{genkin2007large}
+A.~Genkin, D.D. Lewis, and D.~Madigan.
+\newblock Large-scale bayesian logistic regression for text categorization.
+\newblock {\em Technometrics}, 49(3):291--304, 2007.
+
+\bibitem{gropp1999using}
+William Gropp, Ewing~L Lusk, and Anthony Skjellum.
+\newblock {\em Using MPI-: Portable Parallel Programming with the Message
+  Passing Interface}, volume~1.
+\newblock MIT press, 1999.
+
+\bibitem{guyon2004result}
+I.~Guyon, S.~Gunn, A.~Ben-Hur, and G.~Dror.
+\newblock Result analysis of the nips 2003 feature selection challenge.
+\newblock {\em Advances in Neural Information Processing Systems}, 17:545--552,
+  2004.
+
+\bibitem{HastieBook:SL}
+T.~Hastie, R.~Tishirani, and J.~Friedman.
+\newblock {\em The Elements of Statistical Learning: Data Mining, Inference,
+  and Prediction}.
+\newblock Springer-Verlag, New York, 2001.
+
+\bibitem{hazan2011optimal}
+E.~Hazan and T.~Koren.
+\newblock Optimal algorithms for ridge and lasso regression with partially
+  observed attributes.
+\newblock {\em Arxiv preprint arXiv:1108.4559}, 2011.
+
+\bibitem{hazanbeating}
+E.~Hazan, T.~Koren, and N.~Srebro.
+\newblock Beating sgd: Learning svms in sublinear time.
+\newblock In {\em Advances in Neural Information Processing Systems}, 2011.
+
+\bibitem{kyrola2012graphchi}
+Aapo Kyrola, Guy Blelloch, and Carlos Guestrin.
+\newblock Graphchi: Large-scale graph computation on just a pc.
+\newblock In {\em Proceedings of the 10th conference on Symposium on Opearting
+  Systems Design \& Implementation}, 2012.
+
+\bibitem{le2011building}
+Quoc~V Le, Marc'Aurelio Ranzato, Rajat Monga, Matthieu Devin, Kai Chen, Greg~S
+  Corrado, Jeff Dean, and Andrew~Y Ng.
+\newblock Building high-level features using large scale unsupervised learning.
+\newblock {\em arXiv preprint arXiv:1112.6209}, 2011.
+
+\bibitem{ma2009identifying}
+Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
+\newblock Identifying suspicious urls: an application of large-scale online
+  learning.
+\newblock In {\em Proceedings of the 26th Annual International Conference on
+  Machine Learning}, pages 681--688. ACM, 2009.
+
+\bibitem{mahoutscalable}
+Apache Mahout.
+\newblock Scalable machine-learning and data-mining library.
+\newblock {\em available at mahout. apache. org}.
+
+\bibitem{page1999pagerank}
+Lawrence Page, Sergey Brin, Rajeev Motwani, and Terry Winograd.
+\newblock The pagerank citation ranking: bringing order to the web.
+\newblock 1999.
+
+\bibitem{peng2012sublinear}
+Haoruo Peng, Zhengyu Wang, Edward~Y Chang, Shuchang Zhou, and Zhihua Zhang.
+\newblock Sublinear algorithms for penalized logistic regression in massive
+  datasets.
+\newblock In {\em Machine Learning and Knowledge Discovery in Databases}, pages
+  553--568. Springer, 2012.
+
+\bibitem{tibshirani1996regression}
+R.~Tibshirani.
+\newblock Regression shrinkage and selection via the lasso.
+\newblock {\em Journal of the Royal Statistical Society. Series B
+  (Methodological)}, pages 267--288, 1996.
+
+\bibitem{tsumoto2004mining}
+S.~Tsumoto.
+\newblock Mining diagnostic rules from clinical databases using rough sets and
+  medical diagnostic model.
+\newblock {\em Information sciences}, 162(2):65--80, 2004.
+
+\bibitem{Vapnik:1998}
+V.~Vapnik.
+\newblock {\em Statistical Learning Theory}.
+\newblock John Wiley and Sons, New York, 1998.
+
+\bibitem{wang2009plda}
+Yi~Wang, Hongjie Bai, Matt Stanton, Wen-Yen Chen, and Edward~Y Chang.
+\newblock Plda: Parallel latent dirichlet allocation for large-scale
+  applications.
+\newblock In {\em Algorithmic Aspects in Information and Management}, pages
+  301--314. Springer, 2009.
+
+\bibitem{white2012hadoop}
+Tom White.
+\newblock {\em Hadoop: The definitive guide}.
+\newblock O'Reilly Media, Inc., 2012.
+
+\bibitem{xiao2010dual}
+L.~Xiao.
+\newblock Dual averaging methods for regularized stochastic learning and online
+  optimization.
+\newblock {\em The Journal of Machine Learning Research}, 11:2543--2596, 2010.
+
+\bibitem{zaharia2010spark}
+Matei Zaharia, Mosharaf Chowdhury, Michael~J Franklin, Scott Shenker, and Ion
+  Stoica.
+\newblock Spark: cluster computing with working sets.
+\newblock In {\em Proceedings of the 2nd USENIX conference on Hot topics in
+  cloud computing}, pages 10--10, 2010.
+
+\bibitem{zhang2004solving}
+T.~Zhang.
+\newblock Solving large scale linear prediction problems using stochastic
+  gradient descent algorithms.
+\newblock In {\em Proceedings of the twenty-first international conference on
+  Machine learning}, page 116. ACM, 2004.
+
+\end{thebibliography}
