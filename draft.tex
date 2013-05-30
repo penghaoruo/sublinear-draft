@@ -346,6 +346,12 @@ In Algorithm~1, we give the sequential sublinear approximation procedure for log
 	\label{alg:1}
 	\end{table}
 
+The primal update contains a $\ell_1$-sampling process for the choice of $i_t$, which takes $O(n)$ time, and the update of $w_t$ takes $O(d)$ time.
+The update of t can be done using a simple greedy algorithm which takes O(n) time. The primal update contains
+a `2-sampling process for the choice of jt (O(d) time), and an update of
+p (O(n) time). Altogether, each iteration takes O(n + d) time
+    \comment{Will add more on algorithm design explanation later in next version of draft}
+
 \section{Parallel Framework of Learning Algorithms for PLR} \label{sec:framework}
 
 \subsection{Parallel Sublinear algorithms in Hadoop (MapReduce)}
@@ -474,18 +480,29 @@ In Algorithm~1, we give the sequential sublinear approximation procedure for log
 	\end{tabular}
 	\end{table}
 
-    \comment{Will add more on algorithm design explanation later in next version of draft}
-    
+This parallel design generally follows the framework of sequential sublinear algorithm.
+It remains to have two computational components in each iteration: the primal update part from line 4 to line 12 and dual update part from line 13 to line 21.
+Within the primal update part, there has been a parallel implementation period from line 4 to line 11, and also a unavoidable sequential period as illustrated in line 12.
+Within the dual part, it is the same situation that a parallel implementation period from line 14 to 20 is surrounded by sequential periods for line 13 and line 21.
+
+For the parallelization period in the \textit{primal mapreduce job}, we take advantage of the MapReduce design that takes in every data instance in the training matrix.
+Instead of the fashion in the sequential algorithm that we only sample a data instance in the primal update step, we compute gradients from "almost" all data instances and make the weighted average value according to vector $\bp$ as the output gradient for update.
+The details of this algorithm design is shown in \textbf{Procedure Primal-Map(inputfile)} and \textbf{Procedure Primal-Reduce(key in, value in)}.
+Here, we employ a randomization when we compute those "almost" all gradients.
+As you can interpret from line 7 and 8 from \textbf{Procedure Primal-Map(inputfile)}, if $r=0$, then all data instances are computed.
+As the expectation value for $\bp_t{i_t}$ is $\frac{1}{n}$, we normally set $r$ to range from 0 to 1.
+For the parallelization period in the \textit{dual mapreduce job}, we actually implement an embarrasingly
+
+
+
     \comment{1: Parameter passing Issues}
-    
+
     \comment{2: L1 and L2 small changes}
-    
+
     \comment{3: code details to cater to sparsity}
-    
+
     \comment{4: A possible level2 parallelization}
-    
-    \comment{5: The randomization design in primal map}
-    
+
     \comment{Maybe a graph to illustrate sequential part and parallelization part}
 
 \subsection{Parallel Sublinear algorithms in Spark}
@@ -520,7 +537,7 @@ In Algorithm~1, we give the sequential sublinear approximation procedure for log
 
     \comment{4: Emphasis on .cahche() }
 
-    \comment{5: Similarity with PSUBPLR-MR} 
+    \comment{5: Similarity with PSUBPLR-MR}
 
 \subsection{Parallel Gradient Descent in Spark}
     \begin{table}[ht]
@@ -546,7 +563,7 @@ In Algorithm~1, we give the sequential sublinear approximation procedure for log
 
     \comment{1: L1 and L2 small changes}
 
-    \comment{2: Similarity with PSUBPLR-SPARK} 
+    \comment{2: Similarity with PSUBPLR-SPARK}
 
 \subsection{Online Stochastic Gradient Descent in Mahout}
 Though SGD is an inherently sequential algorithm, it is blazingly fast and thus it is not a problem for Mahout's implementation to handle training sets of tens of millions of examples.
@@ -559,7 +576,7 @@ Because the SGD algorithms need to have fixed length feature vectors and because
 
     \comment{1: Add presudo code}
 
-    \comment{2: function call by OnlineLogisticRegression() and corresponding feature vector encoding (will ask Liang Ding to help to write)} 
+    \comment{2: function call by OnlineLogisticRegression() and corresponding feature vector encoding (will ask Liang Ding to help to write)}
 	
 \section{Experiments} \label{sec:experiment}
 In this section, we conduct an empirical analysis of our algorithms.
@@ -639,7 +656,7 @@ Analysis points:
 
 6: fast convergent
 
-7: In general, different algorithms for different datasets and system requirement. For general purpose, we recommend subSpark. 
+7: In general, different algorithms for different datasets and system requirement. For general purpose, we recommend subSpark.
 
 \begin{table}[h]
 \centering
