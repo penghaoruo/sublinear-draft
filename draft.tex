@@ -153,9 +153,10 @@
 Penalized logistic regression (PLR) is a widely used supervised learning model.
 This paper addresses the issue of computational efficiency for solving PLR in big data scenario.
 We focus on algorithm level and employ three different parallel computation systems with three different types of parallel algorithms to efficiently improve scalability.
-Hadoop, Mahout and Spark are existing well-known parallel frameworks that can be implemented with large scale machine learning algorithms.
-Parallel gradient Descent stochastic gradient descent are two existing state-of-art algorithms for parameter optimization in PLR.
-We also present a novel parallel sublinear method and make a comparison between these algorithms implemented on different systems.
+Hadoop, Mahout and Spark are three existing well-known parallel systems that can be implemented with large scale machine learning algorithms.
+Parallel gradient Descent and stochastic gradient descent are two existing state-of-art algorithms for parameter optimization in PLR.
+We also present a novel parallel sublinear method based on its sequential version.
+We then make a comparison between these algorithms implemented on different systems.
 As the outcome shows, we claim parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR for general purpose.
 Moreover, fault tolerance can be provided for those lengthy distributed computations both on algorithm level and system level.
 %We have released all experiment codes to open source at https://github.com/penghaoruo/PPLR.
@@ -170,7 +171,7 @@ We will focus on the binary PLR model in the following.
 A wide variety of other classification algorithms exist in the literature.
 One might ask why we are motivated to use PLR for classification instead of other usual candidates.
 Our motivation for exploring PLR as a fast classifier to be used in data mining applications is its maturity.
-It has a statistical foundation which, in the right circumstances, could be used to extend classification results into a deeper analysis.
+It has a statistical foundation which could be used to extend classification results into a deeper analysis.
 
 Recently, large-scale applications have emerged from many modern massive datasets.
 A key characteristic of these applications is that the size of their training data is very large and data dimensionality is very high.
@@ -181,53 +182,55 @@ Especially, PLR is a widely used model in algorithms like PageRank~\cite{page199
 We tackle these challenges on algorithm level and fully exploit the benefits of parallelization.
 When developing parallel algorithms for PLR, it is unavoidable to come across the question of choosing which parallel system to use and which parallel framework to employ.
 After a thorough survey, we choose three unique and best-known systems to test: Hadoop~\cite{white2012hadoop}, Mahout~\cite{mahoutscalable} and Spark~\cite{zaharia2010spark}.
-Hadoop uses HDFS~\cite{borthakur2008hdfs} and MapReduce~\cite{dean2008mapreduce}, Mahout runs on Apache Hadoop~\cite{gropp1999using} and make improvements in the low level code, and Spark features for iterative algorithms and also supports HDFS.
+Hadoop employs HDFS~\cite{borthakur2008hdfs} and MapReduce~\cite{dean2008mapreduce}. Mahout runs on Apache Hadoop~\cite{gropp1999using} and make improvements in the low level code. Spark features for iterative algorithms and also supports HDFS.
 We will introduce the features of them separately in detail in related work section.
 
 In sequential algorithms for PLR, a classical way is to turn to stochastic approximation methods.
 Stochastic approximation methods, such as stochastic gradient descent~\cite{zhang2004solving} and stochastic dual averaging~\cite{xiao2010dual}, obtain optimal generalization guarantees with only a single pass or a small number of passes over the data.
 Therefore, they can achieve a desired generalization with runtime linear to the dataset size.
 A best-known method of those is stochastic gradient descent. This works in an online fashion. We view the sampled data points as the come-in data stream. It is extremely hard to parallelize, but it is blazingly fast.
-If we take a step back and go back to the general gradient descent to solve PLR, we can find that it can be actually embarrassingly parallel. We can take in all the data at the same iteration and just compute the gradient in a Map-Reduce fashion.
+If we take a step back and go back to the general gradient descent to solve PLR, we can find that it can be actually embarrassingly parallel. We can take in all the data at the same iteration and just compute the gradient in a MapReduce fashion.
 We can further speed up the runtime by employing sublinear algorithms~\cite{peng2012sublinear} for PLR via the use of stochastic approximation idea.
 This methods access a single feature of training vectors instead of entire training vectors at each iteration.
-We propose a parallel version of this algorithm and achieve the result of comparable accuracy while faster convergent.
+We propose a parallel version of this algorithm and achieve the result of comparable accuracy while being faster convergent.
 	
 The rest of the paper is organized as follows:
 Section~\ref{sec:rew} discusses some related work and three different systems.
-In Section~\ref{sec:plr}, we review the penalized logistic regression model.
+In Section~\ref{sec:plr}, we review the penalized logistic regression model and the sublinear method.
 In Section~\ref{sec:framework}, we present the parallel framework of all three different algorithms for PLR.
 Section~\ref{sec:experiment} describes the datasets and the baseline of our experiments and presents the experimental results.
 Finally, we offer our concluding remarks in Section~\ref{sec:concl}.
 
 \section{Related Work} \label{sec:rew}
-
 In big data scenario, large datasets require us to develop machine learning algorithms towards a more efficient and more parallelized end.
 Researchers have already done much work to cater for the needs of massive datasets.
-Early work like PSVM (Parallel Support Vector Machines)~\cite{chang2011psvm} employed an approximation matrix decomposition method based on row selections to reduce the memory when running the algorithm.
+Early work like PSVM \textit{(Parallel Support Vector Machines)}~\cite{chang2011psvm} employed an approximation matrix decomposition method based on row selections to reduce the memory when running the algorithm.
 It can then increase the number of participated parallel computation nodes to several hundreds.
-Later, the work of PLDA (Parallel Latent Dirichlet Allocation)~\cite{wang2009plda} further improve the computational efficiency through the use of sampling methods.
-The proposed parallel algorithm in Hadoop is robust, for it has fault tolerance of machines, taking the advantage of Hadoop.
+Later, the work of PLDA \textit{(Parallel Latent Dirichlet Allocation)}~\cite{wang2009plda} further improve the computational efficiency of the LDA model through the use of sampling methods.
+The proposed parallel algorithm in Hadoop is robust, for it has fault tolerance of machine failures, taking the advantage of Hadoop.
 Recently, the work by Dean et al.\cite{le2011building} showed that the advantage of parallelization is fully taken in deep learning algorithms.
 It pushed the limits of parallel computational nodes to a hundred-million level, and in the meantime, achieved a best learning performance ever.
 Besides Hadoop, there are many other trials on parallelization in machine learning.
 GraphLab~\cite{kyrola2012graphchi}, a recent developed tool in CMU\textit{(Carnegie Mellon University)} for large-scale machine learning, tried to tackle with efficiency and scalability problems of machine leaning algorithms when applied to graphs.
 
 Three computing platforms we are working on each features for its own advantage in implementing machine learning algorithms.
-The Apache Hadoop~\cite{white2012hadoop} software library is a framework that allows for the distributed processing of large data sets across clusters of computers using simple programming models. It is designed to scale up from single servers to thousands of machines, each offering local computation and storage. Rather than rely on hardware to deliver high-availability, the library itself is designed to detect and handle failures at the application layer, so delivering a highly-available service on top of a cluster of computers, each of which may be prone to failures.
-It is an open-source software framework that supports data-intensive distributed applications, licensed under the Apache v2 license. It supports the running of applications on large clusters of commodity hardware. Hadoop was derived from Google's MapReduce and Google File System (GFS) papers. The Hadoop framework transparently provides both reliability and data motion to applications. Hadoop implements a computational paradigm named MapReduce~\cite{dean2008mapreduce}, where the application is divided into many small fragments of work, each of which may be executed or re-executed on any node in the cluster.
+The Apache Hadoop~\cite{white2012hadoop} software library is a framework that allows for the distributed processing of large data sets across clusters of computers using simple programming models. It is an open-source software framework that supports data-intensive distributed applications, licensed under the Apache v2 license. It supports the running of applications on large clusters of commodity hardware. Hadoop was derived from Google's MapReduce and Google File System (GFS) papers. Hadoop is written in the Java programming language and is an Apache top-level project being built and used by a global community of contributors. The entire Apache Hadoop platform is now commonly considered to consist of the Hadoop kernel, MapReduce and Hadoop Distributed File System (HDFS), as well as a number of related projects, including Apache Hive and Apache HBase.
+Hadoop is designed to scale up from single servers to thousands of machines, each offering local computation and storage.
+The Hadoop framework transparently provides both reliability and data motion to applications.
+Hadoop implements a computational paradigm named MapReduce~\cite{dean2008mapreduce}, where the application is divided into many small fragments of work, each of which may be executed or re-executed on any node in the cluster.
 The MapReduce paradigm applies to problems where the input is a set of key-value pairs.
 A \textit{map} function turns these key-value pairs into other intermediate key-value pairs. A \textit{reduce} function merges in some way all values for each intermediate key to produce output.
 Actually, many problems can be framed as MapReduce problems, or as a series of them. The paradigm also lends itself quite well to parallelization: all of the processing is independent and so can be split across many machines.
 In addition, it provides a distributed file system that stores data on the compute nodes, providing very high aggregate bandwidth across the cluster.
 Both map/reduce and the distributed file system are designed so that node failures are automatically handled by the framework.
-The entire Apache Hadoop platform is now commonly considered to consist of the Hadoop kernel, MapReduce and Hadoop Distributed File System (HDFS), as well as a number of related projects ¨C including Apache Hive, Apache HBase, and others. Hadoop is written in the Java programming language and is an Apache top-level project being built and used by a global community of contributors.
+Rather than rely on hardware to deliver high-availability, the library itself is designed to detect and handle failures at the application layer, so delivering a highly-available service on top of a cluster of computers, each of which may be prone to failures.
 
-The Apache Mahout~\cite{mahoutscalable} machine learning library's goal is to build scalable machine learning libraries. It is scalable to reasonably large data sets. Their core algorithms for clustering, classification and batch based collaborative filtering are implemented on top of Apache Hadoop using the map/reduce paradigm. The core libraries are highly optimized to allow for good performance also for non-distributed algorithms.
-It is also scalable to support business cases. Mahout is distributed under a commercially friendly Apache Software license. Currently Mahout supports mainly four use cases: Recommendation mining takes users' behavior and from that tries to find items users might like. Clustering takes e.g. text documents and groups them into groups of topically related documents. Classification learns from existing categorized documents what documents of a specific category look like and is able to assign unlabeled documents to the (hopefully) correct category. Frequent itemset mining takes a set of item groups (terms in a query session, shopping cart content) and identifies, which individual items usually appear together.
-Mahout currently supports many machine learning algorithms including collaborative filtering, user and item based recommenders, K-Means, fuzzy K-Means clustering, mean shift clustering, dirichlet process clustering, Latent Dirichlet Allocation, singular value decomposition, parallel frequent pattern mining, complementary naive bayes classifier, random forest decision tree based classifier.
+The Apache Mahout~\cite{mahoutscalable} machine learning library's goal is to build scalable machine learning libraries. It is scalable to reasonably large datasets. Their core algorithms for clustering, classification and batch based collaborative filtering are implemented on top of Apache Hadoop using the map/reduce paradigm. The core libraries are highly optimized to allow for good performance also for non-distributed algorithms.
+It is also scalable to support business cases. Mahout is distributed under a commercially friendly Apache Software license.
+Currently Mahout supports mainly four use cases: Recommendation mining takes users' behavior and from that tries to find items users might like. Clustering takes e.g. text documents and groups them into groups of topically related documents. Classification learns from existing categorized documents what documents of a specific category look like and is able to assign unlabeled documents to the correct category. Frequent itemset mining takes a set of item groups (terms in a query session, shopping cart content) and identifies, which individual items usually appear together.
+Mahout currently supports many machine learning algorithms including collaborative filtering, user and item based recommenders, K-Means, fuzzy K-Means clustering, mean shift clustering, dirichlet process clustering, Latent Dirichlet Allocation, singular value decomposition, parallel frequent pattern mining, complementary naive bayes classifier and random forest decision tree based classifier.
 
-Spark~\cite{zaharia2010spark} was developed in the UC Berkeley AMPLab. It is an open source cluster computing system that aims to make data analytics fast ¡ª both fast to run and fast to write.
+Spark~\cite{zaharia2010spark} is developed in the UC Berkeley AMPLab. It is an open source cluster computing system that aims to make data analytics fast: both fast to run and fast to write.
 To run programs faster, Spark provides primitives for in-memory cluster computing: a job can load data into memory and query it repeatedly much more quickly than with disk-based systems like Hadoop MapReduce.
 To make programming faster, Spark provides clean, concise APIs in Scala, Java and Python. Users can also use Spark interactively from the Scala and Python shells to rapidly query big datasets.
 Spark was initially developed for two applications where keeping data in memory helps: iterative algorithms, which are common in machine learning, and interactive data mining. In both cases, Spark can run up to 100x faster than Hadoop MapReduce. Spark is also the engine behind Shark, a fully Apache Hive-compatible data warehousing system that can run 100x faster than Hive. While Spark is a new engine, it can access any data source supported by Hadoop, making it easy to run over existing data.
@@ -238,13 +241,13 @@ The main abstraction in Spark is that of a resilient distributed dataset\textit{
 Users can explicitly cache an RDD in memory across machines and reuse it in multiple MapReduce-like parallel operations.
 RDDs achieve fault tolerance through a notion of lineage: if a partition of an RDD is lost, the RDD has enough information about how it was derived from other RDDs to be able to rebuild just that partition.
 
-Recently, Clarkson et al. \cite{clarkson2010sublinear} proposed a new method by taking advantage of randomized algorithms.
+Recently, Clarkson et al.~\cite{clarkson2010sublinear} proposed a new method by taking advantage of randomized algorithms.
 They presented sublinear-time approximation algorithms for optimization problems arising in machine learning, such as linear classifiers and minimum enclosing balls.
 The algorithm uses a combination of a novel sampling techniques and a new multiplicative update algorithm. They also proved lower bounds which show the running times to be nearly optimal on the unit-cost RAM model.
-Hazan et al. \cite{hazanbeating} exploited sublinear approximation approach to the linear SVM with $\ell_2$-penalty, from which we were inspired and borrowed some of the ideas (We generally refer to them as the ETN framework in Section~\ref{sec:framework}). Later on, Cotter et al. \cite{cotter2012kernelized} extended the work to kernelized SVM cases. In \cite{hazan2011optimal}, Hazan et al. applied the sublinear approximation approach for solving ridge ($\ell_2$-regularized) and lasso ($\ell_1$-regularized) linear regression. Garber and Hazan \cite{garberapproximating} developed the method in semidenfinite programming (SDP).
+Hazan et al.~\cite{hazanbeating} exploited sublinear approximation approach to the linear SVM with $\ell_2$-penalty, from which we were inspired and borrowed some of the ideas. Later on, Cotter et al.~\cite{cotter2012kernelized} extended the work to kernelized SVM cases. In~\cite{hazan2011optimal}, Hazan et al. applied the sublinear approximation approach for solving ridge ($\ell_2$-regularized) and lasso ($\ell_1$-regularized) linear regression. Garber and Hazan~\cite{garberapproximating} developed the method in semidenfinite programming (SDP). Peng et al.~\cite{peng2012sublinear} applied the method in PLR and developed sequential sublinear algorithms for both $\ell_1$-penalty and $\ell_2$-penalty.
+% can change the style to have {items} to be more organized
 
 \section{Penalized Logistic Regression Models and Sublinear Methods} \label{sec:plr}
-
 Logistic regression is a widely used method for solving classification problems.
 In this paper, we are mainly concerned with the binary classification problem.  	
 Suppose that we are given a set of training data $\XM=\{(\x_i, y_i): i=1, \ldots, n\}$ where $\x_i \in \RB^d$ are input samples and $y_i \in \{-1, 1\}$ are the corresponding labels.
@@ -256,7 +259,6 @@ P(y_i|\x_i)= \frac{1}{1+ \exp(- y_i(\x_i^T \w + b))} \triangleq g_i(y_i),
 where $\w=(w_1, \ldots, w_d)^T \in \RB^d$ is a regression vector and $b\in \RB$ is an offset term.
 
 \subsection{Penalized Logistic Regression Models}
-	
 We assume that $\w$ follows a Gaussian distribution with mean $\0$ and covariance matrix $\lambda \I_d$ where $\I_d$ is the $d{\times}d$ identity matrix, i.e. $\w \thicksim N(\0, \lambda \I_d)$.
 In this case, we can formulate the optimization problem as
 \begin{equation} \label{eqn:4}
@@ -277,7 +279,6 @@ The advantage of $\ell_1$-penalty over $\ell_2$-penalty is its utility in sparsi
 Thus, $\ell_1$-penalty logistic regression can serve for both classification and feature selection simultaneously.
 
 \subsection{Sublinear Algorithms}
-
 The framework of sublinear algorithms is a hybrid method to handle hard margin and soft margin separately and simultaneously.
 It enjoys the property of fast convergence for both hard margin and soft margin.
 
@@ -285,18 +286,19 @@ Each iteration of the method works in two steps.
 The first one is the \textit{stochastic primal update}:
 \begin{enumerate}
 \item[{(1)}] \; An instance $i\in \{1,\ldots, n\}$ is chosen according to a probability vector $\bp$;
-\item[{(2)}] \; The primal variable $\bw$ is updated according to the derivative of $f_i(\bw,b)$ and the soft margin, via an online update with regret.
+\item[{(2)}] \; The primal variable $\bw$ is updated according to the gradient computed based on the sampled instance $\textbf{x}_i$, via an online update with regret.
 \end{enumerate}
 
 The second one is the \textit{stochastic dual update}:
 \begin{enumerate}
-\item[{(1)}] \; A stochastic estimate of $f_i(\bw,b)$ plus the soft margin is obtained, which can be computed in $O(1)$ time per term;
+\item[{(1)}] \; A stochastic estimate of hard margin plus soft margin is obtained, which can be computed in $O(1)$ time per term;
 \item[{(2)}] \; The probability vector $\bp$ is updated based on the above computed terms by using the \textit{Multiplicative Updates} (MW) framework~\cite{arora2005multiplicative} for online optimization over the simplex.
 \end{enumerate}
 
 \subsection{Sequential Sublinear Algorithm for Logistic Regression} \label{sec:l2alg}
-
-We use the following notations.
+We use the following notations to define sequential sublinear algorithm for penalized logistic regression.
+Much of them are borrowed from~\cite{peng2012sublinear}.
+We will also use these notations in other algorithm definitions in the following.  
 
 $clip\lc \cdot \rc$ is a projection function defined as follows:
 \[
@@ -326,36 +328,47 @@ In Algorithm~1, we give the sequential sublinear approximation procedure for log
 	\noalign{\smallskip}
 	\hline
 	\noalign{\smallskip}
-	1:	Input parameters: $\varepsilon, \nu, X, Y$ \\
+	1:	Input parameters: $\varepsilon, \nu~or~\gamma, X, Y$ \\
 	2:	Initialize parameters: $T, \eta, {\mathbf{u}}_{0}, {\bw}_{1}, {\mathbf{\bq}}_{1}, {b}_{1}$\\
 	3:	Iterations: $t=1 \sim T$ \\
 	4:	\tspace ${\bp}_{t}\leftarrow{\bq}_{t}/{\|{\bq}_{t}\|}_{1}$ \\
 	5:  \tspace Choose ${i}_{t}\leftarrow i$ with probability $\bp(i)$ \\
 	6:	\tspace $coef\leftarrow{y}_{{i}_{t}}g\lc-{y}_{{i}_{t}}\lc {{\bw}_{t}}^{T}{\mathbf{x}}_{i_t}+{b}_{t} \rc\rc$ \\
 	7:	\tspace ${\bu}_{t}\leftarrow {\bu}_{t-1}+\frac{coef}{\sqrt{2T}}{\mathbf{x}}_{{i}_{t}}$ \\
-	8:	\tspace ${\bw}_{t}\leftarrow {\bu}_{t}/\max \left\{1,\|{\bu}_{t}\|_2 \right\}$ \\
-    9:  \tspace ${b}_{t}\leftarrow \sgn\lc {{\bp}_{t}}^{T}\mathbf{y}\rc$ \\
-	10:	\tspaces Choose ${j}_{t}\leftarrow j$ with probability ${{\bw}_{t}\lj}^{2}/{\|{\bw}_{t}\|_2}^{2} $ \\
-	11:	\tspaces Iterations: $i=1 \sim n$ \\
-	12:	\tspaces\tspace $\sigma \leftarrow \mathbf{x}_{i} \lc {j}_{t}\rc{\|{\bw}_{t}\|_2}^{2}/{\bw}_{t}\lc {j}_{t} \rc+{\bxi}_{t}\li+{y}_{i}{b}_{t}$ \\
-	13:	\tspaces\tspace $\hat{\sigma} \leftarrow clip\lc \sigma,1/\eta \rc$ \\
-	14:	\tspaces\tspace ${\bq}_{t+1}\li \leftarrow {\bp}_{t}\li\lc 1-\eta\hat{\sigma} + {\eta}^{2}{\hat{\sigma}}^{2} \rc$ \\
-	15:	Output: $\bar{\bw}=\frac{1}{T}\sum_{t}{\bw}_{t},\bar{b}=\frac{1}{T}\sum_{t}{b}_{t}$ \\
+    8:  \tspace Update soft margin $\bxi_t$ if input $\nu$ for $\ell_2$-penalty \\
+    9:  \tspace Update $\bu_t$ by soft-thresholding operations if input $\gamma$ for $\ell_1$-penalty \\
+	10:	\tspaces ${\bw}_{t}\leftarrow {\bu}_{t}/\max \left\{1,\|{\bu}_{t}\|_2 \right\}$ \\
+    11: \tspaces ${b}_{t}\leftarrow \sgn\lc {{\bp}_{t}}^{T}\mathbf{y}\rc$ \\
+	12:	\tspaces Choose ${j}_{t}\leftarrow j$ with probability ${{\bw}_{t}\lj}^{2}/{\|{\bw}_{t}\|_2}^{2} $ \\
+	13:	\tspaces Iterations: $i=1 \sim n$ \\
+	14:	\tspaces\tspace $\sigma \leftarrow \mathbf{x}_{i} \lc {j}_{t}\rc{\|{\bw}_{t}\|_2}^{2}/{\bw}_{t}\lc {j}_{t} \rc+{\bxi}_{t}\li+{y}_{i}{b}_{t}$ \\
+	15:	\tspaces\tspace $\hat{\sigma} \leftarrow clip\lc \sigma,1/\eta \rc$ \\
+	16:	\tspaces\tspace ${\bq}_{t+1}\li \leftarrow {\bp}_{t}\li\lc 1-\eta\hat{\sigma} + {\eta}^{2}{\hat{\sigma}}^{2} \rc$ \\
+	17:	Output: $\bar{\bw}=\frac{1}{T}\sum_{t}{\bw}_{t},\bar{b}=\frac{1}{T}\sum_{t}{b}_{t}$ \\
 	\hline
 	\end{tabular} 	
 	\label{alg:1}
 	\end{table}
+    
+In the pseudo-code of Algorithm 1, line 4 to line 11 is the primal part, where $coef$ is the estimator of the gradient.
+Line 12 to line 16 is the dual part, where $\sigma$ serves as an estimator of hard margin plus soft margin.
+$\sigma$ also serves as the derivative of $\bp(i)$.
+Although the computation of line 15 and 16 makes $\hat{\sigma}$ a biased approximation, it is critical to the stability of the algorithm. The resulting bias is negligible in our approach.
+We show the sublinear algorithm in a uniform way for both $\ell_2$-penalty and $\ell_1$-penalty concisely.
+For more details, you can refer to paper~\cite{peng2012sublinear} to expand on line 8 and line 9.
 
-The primal update contains a $\ell_1$-sampling process for the choice of $i_t$, which takes $O(n)$ time, and the update of $w_t$ takes $O(d)$ time.
-The update of t can be done using a simple greedy algorithm which takes O(n) time. The primal update contains
-a `2-sampling process for the choice of jt (O(d) time), and an update of
-p (O(n) time). Altogether, each iteration takes O(n + d) time
-    \comment{Will add more on algorithm design explanation later in next version of draft}
+In the sequential mode, the primal update contains a $\ell_1$-sampling process for the choice of $i_t$, which takes $O(n)$ time, and the update of $w_t$ takes $O(d)$ time.
+And the dual update contains a $\ell_2$-sampling process for the choice of $j_t$ in $O(d)$ time, and an update of $\bp$ in $O(n) time$.
+Altogether, each iteration takes $O(n+d)$ time, which is sublinear to the dataset size.
 
 \section{Parallel Framework of Learning Algorithms for PLR} \label{sec:framework}
+In this section, we will first describe our parallel sublinear algorithm implemented in Hadoop MapReduce.
+Then we will show a slightly different version implemented in Spark.
+We will also formally introduce the traditional parallel gradient algorithm we use in Spark and describe the online stochastic gradient descent method used in Mahout.
 
-\subsection{Parallel Sublinear algorithms in Hadoop (MapReduce)}
-    In this section, we develop an approach to solve sublinear learning for penalized logistic regression using the architecture of MapReduce.
+\subsection{Parallel Sublinear algorithms in Hadoop MapReduce}
+We develop an approach to solve sublinear learning for penalized logistic regression using the architecture of MapReduce.
+The pseudo-code of Algorithm 2, Procedure for Primal-Map, Procedure for Primal-Reduce, Procedure for PrimalUpdate, Procedure for Dual-Map, and Procedure for DualUpdate explain the critical parts of this algorithm. 
 	\begin{table}[ht]
 	\begin{tabular}{l}
 	\hline\noalign{\smallskip}
@@ -379,7 +392,7 @@ p (O(n) time). Altogether, each iteration takes O(n + d) time
     14: \tspaces $\bw_{t+1} \rightarrow$ storeInHdfsFile("hdfs://paraw").addToDistributedCache() \\
     15: \tspaces conf\_dual $\leftarrow$ new Configuration() \\
     16: \tspaces job\_dual $\leftarrow$ new MapReduce-Job(conf\_dual) \\
-    17: \tspaces conf\_dual.passParameters($d, jt, b_{t+1}, \eta$) \\
+    17: \tspaces conf\_dual.passParameters($d, j_t, b_{t+1}, \eta$) \\
     18: \tspaces job\_primal.setInputPath("...") \\	
     19:	\tspaces job\_dual.setOutputPath("tmp/dual$t$") \\
     20: \tspaces job\_dual.run() \\	
@@ -484,28 +497,44 @@ This parallel design generally follows the framework of sequential sublinear alg
 It remains to have two computational components in each iteration: the primal update part from line 4 to line 12 and dual update part from line 13 to line 21.
 Within the primal update part, there has been a parallel implementation period from line 4 to line 11, and also a unavoidable sequential period as illustrated in line 12.
 Within the dual part, it is the same situation that a parallel implementation period from line 14 to 20 is surrounded by sequential periods for line 13 and line 21.
+Moreover, as the primal part and dual part are decoupled in the sense of the parameters that they affect. We can start these two separate MapReduce jobs in a iteration simultaneously.
+This brings us further parallelization and makes the algorithm more efficient. 
+This framework is shown explicitly in Fig.~\ref{fig:frame}.
+
+\begin{figure}[tb] \label{fig:frame}
+\center \includegraphics[height=3.5cm,width=6cm]{img/framework.png}
+\caption{Parallel implementation flow chart for PSUBPLR-MR}
+\end{figure}
 
 For the parallelization period in the \textit{primal mapreduce job}, we take advantage of the MapReduce design that takes in every data instance in the training matrix.
 Instead of the fashion in the sequential algorithm that we only sample a data instance in the primal update step, we compute gradients from "almost" all data instances and make the weighted average value according to vector $\bp$ as the output gradient for update.
 The details of this algorithm design is shown in \textbf{Procedure Primal-Map(inputfile)} and \textbf{Procedure Primal-Reduce(key in, value in)}.
 Here, we employ a randomization when we compute those "almost" all gradients.
 As you can interpret from line 7 and 8 from \textbf{Procedure Primal-Map(inputfile)}, if $r=0$, then all data instances are computed.
-As the expectation value for $\bp_t{i_t}$ is $\frac{1}{n}$, we normally set $r$ to range from 0 to 1.
-For the parallelization period in the \textit{dual mapreduce job}, we actually implement an embarrasingly
+As the expectation value for $\bp_t(i_t)$ is $\frac{1}{n}$, we normally set $r$ to range from 0 to 1.
+For the parallelization period in the \textit{dual mapreduce job}, we actually implement an embarrassingly parallel operation.
+It simply computes an individual value for each data instance in a parallel mode. It does not even need a reduce session.
 
+There are also three more things that have to be addressed here.
+First is the parameter passing issues. It critical to choose an efficient way to pass the updated parameters between iteration and even between different MapReduce jobs.
+It is even more challenging when we have to deal with HDFS. It is clear that the fastest communication way is to pass parameters by \textit{Configuration()}.
+However, it always has memory buffer size limits, and will greatly impair scalability when the number of parameters is huge.
+Another way is to compress the parameter sequence in a string when sending and uncompress them when receiving. It has computational overhead and it still can not avoid the issue of memory buffer limit. 
+Thinking back on the philosophy of the design of Hadoop, the natural thing is to pass parameters by file, the same way to pass all the data.
+We admit that it is inefficient, but it is the only way to support for large datasets.
 
+The second issue is the small changes we make to cater for the $\ell_2$-penalty and $\ell_1$-penalty. The changes is only made in \textbf{Procedure PrimalUpdate}.
+It does not affect little for the implementation, and the extension is just the same as that in \textbf{Algorithm SLLR}.
+To have a brief and standard framework, we omit the explanation here.
 
-    \comment{1: Parameter passing Issues}
-
-    \comment{2: L1 and L2 small changes}
-
-    \comment{3: code details to cater to sparsity}
-
-    \comment{4: A possible level2 parallelization}
-
-    \comment{Maybe a graph to illustrate sequential part and parallelization part}
+The datasets are always sparse for PLR is when data dimensionally is high. This makes us focus on dealing with data sparsity issue when writing code.
+This is the third important thing for the algorithm, though it reflects nowhere from the pseudo-code.
+Instead of naively writing the simple code for data intensive situations, we assign the index value for each data value in the sparse vector, and all computations are changed accordingly.
+This gives us great efficiency improvement, and all results in section~\ref{sec:experiment} are using the code for sparsity.
 
 \subsection{Parallel Sublinear algorithms in Spark}
+The algorithm to solve sublinear learning for penalized logistic regression in Spark is shown below.
+In the pseudo-code of Algorithm 3, Procedure for PrimalUpdate and Procedure for Dual-Map are the same as those in \textbf{Algorithm  PSUBPLR-MR}.
     \begin{table}[ht]
 	\begin{tabular}{l}
     \hline\noalign{\smallskip}
@@ -527,19 +556,22 @@ For the parallelization period in the \textit{dual mapreduce job}, we actually i
     \end{tabular}
 	\end{table}
 
-    \comment{Will add more on algorithm design explanation later in next version of draft}
+This parallel design is very similar to that of \textbf{Algorithm  PSUBPLR-MR}.
+The most important difference is the \textit{cache()} operation in line 3.
+To make it work in Spark, we follow the rules to construct an RDD for each data instance.
+Also to cater for data sparsity, the design is the every data value correspond to its individual index. And the index also participate in the computation along with the value.
+We also omit the changes for $\ell_2$-penalty and $\ell_1$-penalty here to make the algorithm easier to be understood.
 
-    \comment{1: Parsed Data Structure Design}
-
-    \comment{2: L1 and L2 small changes}
-
-    \comment{3: code details to cater to sparsity}
-
-    \comment{4: Emphasis on .cahche() }
-
-    \comment{5: Similarity with PSUBPLR-MR}
+We can now study the running time of parallel sublinear method for PLR.
+In parallel mode, the primal update contains an update of $w_t$, which takes $O(n)$ time.
+And the dual update contains a $\ell_2$-sampling process for the choice of $j_t$ in $O(d)$ time, and an update of $\bp$ in $O(1) time$.
+Altogether, each iteration takes $O(n+d)$ time, which is sublinear to the dataset size.
+Compared to the analysis of sequential algorithm, parallelization does not change computational complexity.
+However, by reducing the constant coefficient from 2 to 1 in each iteration, it can be two times faster than sequential sublinear algorithm theoretically.
+Moreover, by starting two separate MapReduce jobs in a iteration simultaneously, the running time can be reduced to $O(max\{n,d\})$.
 
 \subsection{Parallel Gradient Descent in Spark}
+The parallel gradient descent method to solve PLR in Spark is shown below.
     \begin{table}[ht]
 	\begin{tabular}{l}
     \hline\noalign{\smallskip}
@@ -559,24 +591,29 @@ For the parallelization period in the \textit{dual mapreduce job}, we actually i
     \end{tabular}
 	\end{table}
 
-    \comment{Will add more on algorithm design explanation later in next version of draft}
-
-    \comment{1: L1 and L2 small changes}
-
-    \comment{2: Similarity with PSUBPLR-SPARK}
+In the pseudo-code of Algorithm 4, we can find that it is implemented in an embarrassingly parallel mode.
+We can take in all the data at the same iteration and just compute the gradient in a MapReduce fashion.
+As for the \textit{cache()} operation and RDD design for data sparsity, it is the same as \textbf{Algorithm PSUBPLR-SPARK}.
 
 \subsection{Online Stochastic Gradient Descent in Mahout}
 Though SGD is an inherently sequential algorithm, it is blazingly fast and thus it is not a problem for Mahout's implementation to handle training sets of tens of millions of examples.
-With the down-sampling typical in many data-sets, this is equivalent to a dataset with billions of raw training examples.
-The SGD system in Mahout is an online learning algorithm which means that you can learn models in an incremental fashion and that you can do performance testing as your system runs. Often this means that you can stop training when a model reaches a target level of performance. The SGD framework includes classes to do on-line evaluation using cross validation (the CrossFoldLearner) and an evolutionary system to do learning hyper-parameter optimization on the fly (the AdaptiveLogisticRegression). The AdaptiveLogisticRegression system makes heavy use of threads to increase machine utilization. The way it works is that it runs 20 CrossFoldLearners in separate threads, each with slightly different learning parameters. As better settings are found, these new settings are propagating to the other learners.
+With the down-sampling typical in many datasets, this is equivalent to a dataset with billions of raw training examples.
+The SGD system in Mahout is an online learning algorithm which means that you can learn models in an incremental fashion and that we can do performance testing as your system runs.
+This also means that we can stop training when a model reaches a target level of performance.
+The SGD framework includes classes to do online evaluation using cross validation (the \textit{CrossFoldLearner}) and an evolutionary system to do learning hyper-parameter optimization on the fly (the \textit{AdaptiveLogisticRegression}).
+The \textit{AdaptiveLogisticRegression} system makes heavy use of threads to increase machine utilization.
+The way it works is that it runs 20 \textit{CrossFoldLearners} in separate threads, each with slightly different learning parameters.
+As better settings are found, these new settings are propagating to the other learners.
 
-Because the SGD algorithms need to have fixed length feature vectors and because it is a pain to build a dictionary ahead of time, most SGD applications use the hashed feature vector encoding system that is rooted at FeatureVectorEncoder. The basic idea is that you create a vector, typically a RandomAccessSparseVector, and then you use various feature encoders to progressively add features to that vector. The size of the vector should be large enough to avoid feature collisions as features are hashed. There are specialized encoders for a variety of data types. You can normally encode either a string representation of the value you want to encode or you can encode a byte level representation to avoid string conversion. In the case of ContinuousValueEncoder and ConstantValueEncoder, it is also possible to encode a null value and pass the real value in as a weight. This avoids numerical parsing entirely in case you are getting your training data from a system like Avro.
+Because the SGD algorithms need to have fixed length feature vectors and because it is a pain to build a dictionary ahead of time, most SGD applications use the hashed feature vector encoding system that is rooted at \textit{FeatureVectorEncoder}.
+The basic idea is that you create a vector, typically a \textit{RandomAccessSparseVector}, and then you use various feature encoders to progressively add features to that vector.
+The size of the vector should be large enough to avoid feature collisions as features are hashed.
+There are specialized encoders for a variety of data types.
+You can normally encode either a string representation of the value you want to encode or you can encode a byte level representation to avoid string conversion.
+In the case of \textit{ContinuousValueEncoder} and \textit{ConstantValueEncoder}, it is also possible to encode a null value and pass the real value in as a weight.
 
-    \comment{Will add more on algorithm design explanation later in next version of draft}
-
-    \comment{1: Add presudo code}
-
-    \comment{2: function call by OnlineLogisticRegression() and corresponding feature vector encoding (will ask Liang Ding to help to write)}
+In our implementation, we use \textit{RandomAccessSparseVector} for data sparsity and the function call by \textit{OnlineLogisticRegression} to train.
+We also do the cross validation part. However, to be synchronized with other methods, we write our own code to do cross validation.
 	
 \section{Experiments} \label{sec:experiment}
 In this section, we conduct an empirical analysis of our algorithms.
@@ -642,6 +679,10 @@ We randomly repeat such split 20 times and our analysis is based on the average 
 
 \comment{5: Fault tolerance-add 1 bar graph;x:number of maps failed;y:time of the iteration;each algorithm as a group}
 
+
+\comment{further parallelization in PSUBPLR-MR, Primal Map is the bottleneck}
+\comment{parameter passing issues in PSUBPLR-MR, the effect in small dataset}
+\comment{MR job start time}
 Analysis points:
 
 1: liblinear always performs the best; It fully utilizes memory; Single machine does not require communication; Disadvantage: cannot run large datasets, eg. ...(detailed statistics)

@@ -34,47 +34,62 @@
 \citation{cotter2012kernelized}
 \citation{hazan2011optimal}
 \citation{garberapproximating}
-\citation{tibshirani1996regression}
+\citation{peng2012sublinear}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Penalized Logistic Regression Models and Sublinear Methods}{5}}
 \newlabel{sec:plr}{{3}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Penalized Logistic Regression Models}{5}}
 \newlabel{eqn:4}{{1}{5}}
+\citation{tibshirani1996regression}
 \citation{arora2005multiplicative}
+\citation{peng2012sublinear}
 \newlabel{eqn:5}{{2}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Sublinear Algorithms}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Sequential Sublinear Algorithm for Logistic Regression}{6}}
 \newlabel{sec:l2alg}{{3.3}{6}}
+\citation{peng2012sublinear}
 \newlabel{alg:1}{{3.3}{7}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Parallel Framework of Learning Algorithms for PLR}{7}}
 \newlabel{sec:framework}{{4}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Parallel Sublinear algorithms in Hadoop (MapReduce)}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Parallel Sublinear algorithms in Spark}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Parallel Gradient Descent in Spark}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Online Stochastic Gradient Descent in Mahout}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Parallel Sublinear algorithms in Hadoop MapReduce}{8}}
+\newlabel{fig:frame}{{4.1}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Parallel implementation flow chart for PSUBPLR-MR}}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Parallel Sublinear algorithms in Spark}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Parallel Gradient Descent in Spark}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Online Stochastic Gradient Descent in Mahout}{12}}
 \citation{guyon2004result}
 \citation{DelanyKBS05}
 \citation{ma2009identifying}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{9}}
-\newlabel{sec:experiment}{{5}{9}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{11}}
-\newlabel{sec:concl}{{6}{11}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{13}}
+\newlabel{sec:experiment}{{5}{13}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Datasets}}{14}}
+\newlabel{tab:table1}{{1}{14}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Cluster Information}}{14}}
+\newlabel{tab:table2}{{2}{14}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{14}}
+\newlabel{sec:concl}{{6}{14}}
 \bibstyle{plain}
 \bibdata{mlpaper}
 \bibcite{androutsopoulos2000evaluation}{1}
 \bibcite{arora2005multiplicative}{2}
 \bibcite{borthakur2008hdfs}{3}
 \bibcite{chang2011psvm}{4}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Accuracy Result}}{15}}
+\newlabel{tab:table3}{{3}{15}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Running Time Result}}{15}}
+\newlabel{tab:table4}{{4}{15}}
 \bibcite{clarkson2010sublinear}{5}
 \bibcite{cotter2012kernelized}{6}
 \bibcite{dean2008mapreduce}{7}
 \bibcite{DelanyKBS05}{8}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Datasets}}{12}}
-\newlabel{tab:table1}{{1}{12}}
 \bibcite{garberapproximating}{9}
 \bibcite{genkin2007large}{10}
 \bibcite{gropp1999using}{11}
 \bibcite{guyon2004result}{12}
 \bibcite{HastieBook:SL}{13}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Fault Tolerance}}{16}}
+\newlabel{tab:table5}{{5}{16}}
+\newlabel{fig:02}{{5}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces 2d Dataset, Visual Result}}{16}}
 \bibcite{hazan2011optimal}{14}
 \bibcite{hazanbeating}{15}
 \bibcite{kyrola2012graphchi}{16}
@@ -82,10 +97,6 @@
 \bibcite{ma2009identifying}{18}
 \bibcite{mahoutscalable}{19}
 \bibcite{page1999pagerank}{20}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Cluster Information}}{13}}
-\newlabel{tab:table2}{{2}{13}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Accuracy Result}}{13}}
-\newlabel{tab:table3}{{3}{13}}
 \bibcite{peng2012sublinear}{21}
 \bibcite{tibshirani1996regression}{22}
 \bibcite{tsumoto2004mining}{23}
@@ -95,9 +106,3 @@
 \bibcite{xiao2010dual}{27}
 \bibcite{zaharia2010spark}{28}
 \bibcite{zhang2004solving}{29}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Running Time Result}}{14}}
-\newlabel{tab:table4}{{4}{14}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Fault Tolerance}}{14}}
-\newlabel{tab:table5}{{5}{14}}
-\newlabel{fig:02}{{5}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces 2d Dataset, Visual Result}}{15}}
