@@ -198,7 +198,7 @@ The rest of the paper is organized as follows:
 Section~\ref{sec:rew} discusses some related work and three different systems.
 In Section~\ref{sec:plr}, we review the penalized logistic regression model and the sublinear method.
 In Section~\ref{sec:framework}, we present the parallel framework of all three different algorithms for PLR.
-Section~\ref{sec:experiment} describes the datasets and the baseline of our experiments and presents the experimental results.
+Section~\ref{sec:setup} describes the datasets and the baseline of our experiments and Section~\ref{sec:experiment} presents the experimental results.
 Finally, we offer our concluding remarks in Section~\ref{sec:concl}.
 
 \section{Related Work} \label{sec:rew}
@@ -615,9 +615,10 @@ In the case of \textit{ContinuousValueEncoder} and \textit{ConstantValueEncoder}
 In our implementation, we use \textit{RandomAccessSparseVector} for data sparsity and the function call by \textit{OnlineLogisticRegression} to train.
 We also do the cross validation part. However, to be synchronized with other methods, we write our own code to do cross validation.
 	
-\section{Experiments} \label{sec:experiment}
-In this section, we conduct an empirical analysis of our algorithms.
+\section{Experiments Setup} \label{sec:setup}
+In this section, we explains details of the datasets information, cluster information, and the test programs of our experiments.
 
+\subsection{Datasets Information}
 We choose five open datasets to run all six test programs:	
 The	Simulated \textbf{2d} dataset has 2 features and 200 instances.
 The	\textbf{20NewsGroup} dataset has 16428 features and 1988 instances. We split it into a training set of 1800 instances and a test set of 188 instances.	
@@ -627,8 +628,6 @@ Finally, we have the \textbf{URL-Reputation}~\cite{ma2009identifying} dataset, w
 We split it into a training set of 2356130 instances and a test set of 20000 instances.
 Apart from the Simulated \textbf{2d} dataset, other four datasets are all sparse. Details are shown in Table~\ref{tab:table1}.
 We randomly repeat such split 20 times and our analysis is based on the average performance of 20 repetitions.
-
-%Particularly, we illustrate test errors in terms of accuracy and convergence in terms of MAP, both with respect to running time.
 
 \begin{table}[h]
 \centering
@@ -645,11 +644,18 @@ We randomly repeat such split 20 times and our analysis is based on the average 
 \hline
     ECUESpam       & 100249        & 10687          & $2.563\times10^{-3}$ & 2746159             & 5.882 \\
 \hline
-    URL-Reputation & 3231961       & 2376130        & $3.608\times10^{-35}$ & 277058644           & 0.500 \\
+    URL-Reputation & 3231961       & 2376130        & $3.608\times10^{-5}$ & 277058644           & 0.500 \\
 \hline
 \end{tabular}
 \end{table}
+We carefully select these five datasets.
+The Simulated \textbf{2d} dataset can be viewed for visual result and serves for initial test of correctness of implementation.
+The \textbf{20NewsGroup} dataset is best-known for the test of PLR model, which has a balanced distribution between positive and negative data instances.
+The \textbf{Gisette} dataset is relatively larger, and data is less sparse. Thus it requires more computation theoretically.
+The \textbf{ECUESpam} dataset features for its inbalanced distribution between positive and negative data instances. It has a higher data dimensionality than textbf{Gisette} dataset. However, because of data sparsity, it has fewer nonzero values involved in the computation.
+Finally, the \textbf{URL-Reputation} dataset contains millions of data instances and features. The raw data is stored in the svmlight format, which has the size of more than 2GB. It achieves the current level for massive dataset, and exceed the scalability of Liblinear, which will be shown below.
 
+\subsection{Cluster Information}
 The cluster that we implement on has the following configurations shown in Table~\ref{tab:table2}.
 \begin{table}[h]
 \centering
@@ -670,117 +676,37 @@ The cluster that we implement on has the following configurations shown in Table
 \hline
 \end{tabular}
 \end{table}
+This kind of cluster configuration is now more and more common in research labs. Hence our results reported in the following can have a real impact in the research community.
 
-2d-dataset (separation graph)
+\subsection{Test Programs}
+There are all together 6 test programs for comparison.
+Online stochastic gradient descent method is run on Mahout in a sequential mode.
+Liblinear~\cite{fan2008liblinear} is the baseline test program we choose. It is sequential and it outperforms many other programs for PLR on a single machine.
+SLLR performs sequential sublinear algorithm on a single machine.
+PSUBPLR-MR performs parallel sublinear algorithm on Hadoop on cluster.
+PGDPLR-SPARK is the test program for parallel gradient descent run on Spark.
+PSUBPLR-SPARK implements parallel sublinear algorithm run on Spark.
+
+\section{Experimental Results} \label{sec:experiment}
+In this section, we conduct an empirical analysis of our algorithms.
+
+\subsection{Results on Simulated 2d Dataset}
 \begin{figure}[tb] \label{fig:02}
-\center \includegraphics[height=5cm,width=7cm]{img/show-2d.png}
-\caption{2d Dataset, Visual Result}
+\center \includegraphics[height=5cm,width=7cm]{img/2d-show.png}
+\caption{Visual Result on Simulated \textbf{2d} Dataset}
 \end{figure}
+Fig.~\ref{fig:02} shows the visual result for Simulated \textbf{2d} Dataset.
+Here we use all data for training and testing, thus "Test Error" here can be interpreted as "Training Error".
+The blue line represents the learned separation vector of Mahout.
+The black line indicates the result for Liblinear.
+The green line shows the result for all sublinear methods, including SLLR, PSUBPLR-MR and PSUBPLR-SPARK.
+The red line is the result for PGDPLR-SPARK.
+The results on the Simulated \textbf{2d} Dataset proves the correctness of all test programs.
 
-
-\begin{figure}[tb] \label{fig:03}
-\center \includegraphics[height=4.5cm,width=6cm]{img/2d_accuracy_iteration.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:04}
-\center \includegraphics[height=4.5cm,width=6cm]{img/20NewsGroup_accuracy_iteration.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:05}
-\center \includegraphics[height=4.5cm,width=6cm]{img/Gisette_accuracy_iteration.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:6}
-\center \includegraphics[height=4.5cm,width=6cm]{img/ECUESpam_accuracy_iteration.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:07}
-\center \includegraphics[height=4.5cm,width=6cm]{img/URL-Reputation_accuracy_iteration.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-
-\begin{figure}[tb] \label{fig:08}
-\center \includegraphics[height=5cm,width=10cm]{img/all_time.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-
-\begin{figure}[tb] \label{fig:09}
-\center \includegraphics[height=5cm,width=10cm]{img/2d_time.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:10}
-\center \includegraphics[height=5cm,width=10cm]{img/20NewsGroup_time.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:11}
-\center \includegraphics[height=5cm,width=10cm]{img/Gisette_time.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:12}
-\center \includegraphics[height=5cm,width=10cm]{img/ECUESpam_time.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\begin{figure}[tb] \label{fig:13}
-\center \includegraphics[height=5cm,width=10cm]{img/URL-Reputation_time.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-
-\begin{figure}[tb] \label{fig:14}
-\center \includegraphics[height=5cm,width=10cm]{img/fault_tolerance.png}
-\caption{2d Dataset, Visual Result}
-\end{figure}
-
-\comment{1: add 5 line graphs;one dataset each;x:iteration number;y:accuracy;6 lines}
-
-\comment{2: add 1 bar graphs;x:different algorithms;y:time;one dataset as a group}
-
-%\comment{3: add 5 line graphs;one dataset each;x:iteration number;y:MAP;6 lines}
-
-\comment{4: add 5 bar graph;one dataset each;x:number of node used;y:time per iteration;each algorithm as a group}
-
-\comment{5: Fault tolerance-add 1 bar graph;x:number of maps failed;y:time of the iteration;each algorithm as a group}
-
-\comment{further parallelization in PSUBPLR-MR, Primal Map is the bottleneck}
-\comment{parameter passing issues in PSUBPLR-MR, the effect in small dataset}
-\comment{MR job start time}
-\comment{baseline liblinear}
-\comment{2d test method}
-\comment{not all converge at the iteration shown}
-\comment{symbol review}
-\comment{single reducer of spark}
-\comment{Iteration Number for SLLR explain}
-\comment{Liblinear Url result}
-\comment{fault tolerance: on url dataset,6 nodes}
-Analysis points:
-
-1: liblinear always performs the best; It fully utilizes memory; Single machine does not require communication; Disadvantage: cannot run large datasets, eg. ...(detailed statistics)
-
-2: Mahout precision not good; especially for those positive and negative instances are not balanced datasets perform poorly; sequential algorithm that can run large data in an acceptable time; Advantage: running memory is low, scalability is good
-
-3: Sublinear methods' accuracy is acceptable.; Parallel-sublinear has a small drop in precision.
-
-4: Hadoop's big drawback: Most current cluster programming models are based on acyclic data flow from stable storage to stable storage. Benefits of data flow: runtime can decide where to run tasks and can automatically recover from failures. But acyclic data flow is inefficient. eg. ... (detailed statistics)
-
-5: Spark's in memory strategy; not to use hdfs file; system maybe even improved
-
-6: fast convergent
-
-7: In general, different algorithms for different datasets and system requirement. For general purpose, we recommend subSpark.
-
+\subsection{Results on Precision} \label{sec:precision}
 \begin{table}[h]
 \centering
-\caption{Accuracy Result}\label{tab:table3}
+\caption{Accuracy Results}\label{tab:table3}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
            & 2d   & 20NewsGroup & Gisette & ECUESpam & URL-Reputation \\
@@ -799,10 +725,42 @@ PSUBPLR-SPARK & 93.5\% & 90.5\% & 95.8\% & 91.7\% & 94.0\% \\
 \hline
 \end{tabular}
 \end{table}
+Accuracy of six test programs achieved on five datasets are shown in Table~\ref{tab:table3}. These are averaged results of cross validation.
+From Fig.~\ref{fig:03} to Fig.~\ref{fig:07}, we show the test error as a function of iteration number on each dataset for all six test programs.
+Note that, Liblinear can not be fully implemented the \textbf{URL-Reputation} dataset on our machine due to memory limit.
+This proves the scalability issue of Liblinear.
+However, if we take in just $\frac{1}{3}$ of the \textbf{URL-Reputation} dataset, it can return result in a very short time.
+Because of the data instances are distributed randomly, the returned result can also enjoy a very high accuracy.
 
+\begin{figure}[tb] \label{fig:03}
+\center \includegraphics[height=4.5cm,width=6cm]{img/2d_accuracy_iteration.png}
+\caption{Test error, as a function of iteration number on Simulated \textbf{2d} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:04}
+\center \includegraphics[height=4.5cm,width=6cm]{img/20NewsGroup_accuracy_iteration.png}
+\caption{Test error, as a function of iteration number on \textbf{20NewsGroup} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:05}
+\center \includegraphics[height=4.5cm,width=6cm]{img/Gisette_accuracy_iteration.png}
+\caption{Test error, as a function of iteration number on \textbf{Gisette} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:06}
+\center \includegraphics[height=4.5cm,width=6cm]{img/ECUESpam_accuracy_iteration.png}
+\caption{Test error, as a function of iteration number on \textbf{ECUESpam} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:07}
+\center \includegraphics[height=4.5cm,width=6cm]{img/URL-Reputation_accuracy_iteration.png}
+\caption{Test error, as a function of iteration number on \textbf{URL-Reputation} Dataset}
+\end{figure}
+
+\subsection{Results on Running Time} \label{sec:time}
 \begin{table}[h]
 \centering
-\caption{Running Time Result}\label{tab:table4}
+\caption{Running Time Results}\label{tab:table4}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
            & 2d   & 20NewsGroup & Gisette & ECUESpam & URL-Reputation \\
@@ -821,15 +779,87 @@ PSUBPLR-SPARK & 1.325s & 8.571s & 89.094s & 796.802s & 2918.470s \\
 \hline
 \end{tabular}
 \end{table}
+Running Time of six test programs used on five datasets are shown in Table~\ref{tab:table4}.
+These are averaged results corresponding to the accuracy we achieved in Table~\ref{tab:table3}.
 
+\begin{figure}[tb] \label{fig:08}
+\center \includegraphics[height=5cm,width=10cm]{img/all_time.png}
+\caption{All running times}
+\end{figure}
+In another way, we show the running time results in Fig.~\ref{fig:08} for comparison.
+
+From the accuracy results in section~\ref{sec:precision} and running time results in section~\ref{sec:time}.
+We can come up with following conclusions.
+\begin{enumerate}
+    \item Liblinear always performs the best. It fully utilizes memory and single machine implementation does not require any communication between machines, which causes overhead.
+          However, its scalability is limited by the memory size of the single machine that it runs on. This prevents its use in massive datasets.
+          Nevertheless, if the dataset can be fully loaded into a single machine's memory, this efficient and direct sequential way of implementation is still recommended. 
+    \item Mahout's precision is not good, especially for those datasets in which positive and negative instances are not balanced.
+          However, it is a representative of sequential algorithm that can train massive data in acceptable time.
+          When we monitor its memory when running, it is much lower than Liblinear. This is the advantage that the online algorithm brings.
+          Thus, it provides good scalability guarantee. If you are in the situation of single machine and limited memory, sequential online training like Mahout is recommended. 
+    \item The precision of all sublinear methods is acceptable. The developed parallel sublinear algorithm only has a small drop in precision.
+    \item Hadoop system has a great drawback for running PLR optimization methods. Its cluster programming model is based on acyclic data flow from stable storage to stable storage.
+          Though it has the benefits of deciding where to run tasks and can automatically recover from failures in runtime, acyclic data flow is inefficient for iterative algorithms.
+          All six test programs contains a number of iterations, thus making PSUBPLR-MR performs poorly, even worse than sequential algorithms.
+          When we study the details of Hadoop implementation, we find the MapReduce job starting time in PSUBPLR-MR is about 20s. It consists of task configuration time and parameter passing time.
+          This running time overhead is not negligible, especially when dataset is relatively small.
+          We also identify the running of "Primal-Map" dominates the whole iteration time (more than 66\%). It is the same situation for PSUBPLR-SPARK.
+    \item Spark employs the "all-in-memory" strategy, and it constructs RDD on demand. We implement PGDPLR-SPARK and PSUBPLR-SPARK in normal file system instead of HDFS.
+          Current results on Spark show that it is much more efficient than Hadoop, and performs better than Mahout.
+          In the parallel situation, and have massive data to process, we recommend using Spark, and can choose PSUBPLR-SPARK for less time in exchange for a little bit precision loss.
+          As the system is premature and still under developing process, we expect our running time results for PGDPLR-SPARK and PSUBPLR-SPARK can still be improved.
+          For example, Spark currently only supports for one reducer, thus it does not use full CPU power when doing reduce jobs.
+    \item Another interesting point we would like to raise is about dataset. If we compare \textbf{ECUESpam} dataset and \textbf{GISETTE} dataset.
+          The former has has higher data dimensionality but more sparse.
+          We can find that algorithms on \textbf{ECUESpam} dataset enjoy less running time per iteration as the dataset has fewer nonzero values involved in the computation.
+          However, algorithms on \textbf{ECUESpam} dataset need more iteration number, which is related to its higher data dimensionality. This even causes more running time in total.
+          To sum up, to get a general sense of running time for individual dataset, we have to consider both data volume and sparsity.
+\end{enumerate}
+
+\subsection{Results on Changing Cluster}
+From Fig.~\ref{fig:09} to Fig.~\ref{fig:13}, we show the running time as a function of used node number on each dataset for all three parallel test programs.
+\begin{figure}[tb] \label{fig:09}
+\center \includegraphics[height=5cm,width=10cm]{img/2d_time.png}
+\caption{Running time, as a function of used node number on Simulated \textbf{2d} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:10}
+\center \includegraphics[height=5cm,width=10cm]{img/20NewsGroup_time.png}
+\caption{Running time, as a function of used node number on \textbf{20NewsGroup} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:11}
+\center \includegraphics[height=5cm,width=10cm]{img/Gisette_time.png}
+\caption{Running time, as a function of used node number on \textbf{Gisette} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:12}
+\center \includegraphics[height=5cm,width=10cm]{img/ECUESpam_time.png}
+\caption{Running time, as a function of used node number on \textbf{ECUESpam} Dataset}
+\end{figure}
+
+\begin{figure}[tb] \label{fig:13}
+\center \includegraphics[height=5cm,width=10cm]{img/URL-Reputation_time.png}
+\caption{Running time, as a function of used node number on \textbf{URL-Reputation} Dataset}
+\end{figure}
+
+As we can see from the results, fewer computation resources provided, longer the implementation process will take.
+However, this trend is not in a consistent fashion. When number of machines gets higher, the less impact it will make.
+We may reach a point for every algorithm when running time stops decreasing as machine number increases.
+This shows the true scalability of the designed algorithm, which we can study in our future work.
+
+\subsection{Fault Tolerance}
+There are both system level techniques and algorithm level techniques to provide fault tolerance in parallel computation.
+Results are shown in Table~\ref{tab:table5}.
 \begin{table}[h]
 \centering
-\caption{Fault Tolerance}\label{tab:table5}
+\caption{Fault Tolerance Analysis}\label{tab:table5}
 \begin{tabular}{|c|c|c|}
 \hline
            & System Level & Algorithm Level \\
 \hline
-Mahout     & \Checkmark & \XSolid  \\
+Mahout     & \XSolid & \XSolid  \\
 \hline
 Liblinear  & \XSolid & \XSolid \\
 \hline
@@ -843,16 +873,19 @@ PSUBPLR-SPARK & \Checkmark &  \Checkmark \\
 \hline
 \end{tabular}
 \end{table}
+Here, randomization is employed in all sublinear methods, thus provides algorithm level fault tolerance for SLLR, PSUBPLR-MR and PSUBPLR-SPARK.
+Hadoop and Spark can both provide fault tolerance, but in different ways. Hadoop employs HDFS while Spark has RDDs.
+Of all six test programs, PSUBPLR-MR and PSUBPLR-SPARK are fault tolerant in both system level and algorithm level.
 
-\comment{Will add explanation for table 5 later in next version of draft}
-
-%Current URL-reputation Dataset Status
-%\begin{figure}[tb] \label{fig:01}
-%\center \includegraphics[height=5cm,width=10cm]{show1.png}
-%\caption{URL-reputation Dataset, Performance Result}
-%\end{figure}
-
-
+We show the iteration time as a function of percentage of failed maps on \textbf{URL-Reputation} dataset for all three parallel test programs in Fig.~\ref{fig:14}.
+This is tested on 6 nodes.
+\begin{figure}[tb] \label{fig:14}
+\center \includegraphics[height=5cm,width=10cm]{img/fault_tolerance.png}
+\caption{Iteration time, as a function of percentage of failed maps, on \textbf{URL-Reputation} Dataset, run on 6 nodes}
+\end{figure}
+As the outcome shows, PSUBPLR-MR suffers no running time increase per iteration when maps failed. But it takes the cost of precision loss if we enforce no additional iterations are implemented.
+PGDPLR-SPARK and PSUBPLR-SPARK will increase iteration time right after the maps failed. It is due to RDD reconstruction. The increase is not significant.
+This difference also proves the different mechanism of fault tolerance between Hadoop and Spark. 
 
 \section{Conclusion} \label{sec:concl}
 %conclusion & contribution & future work
@@ -861,18 +894,12 @@ The dataset size ranges from KB to GB.
 Hadoop, Mahout and Spark are existing well-known parallel frameworks that can be implemented with large scale machine learning algorithms.
 Parallel gradient Descent stochastic gradient descent are two existing state-of-art algorithms for parameter optimization in PLR.
 We also present a novel parallel sublinear method and make a comparison between these algorithms implemented on different systems.
-As the outcome shows, we claim parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR for general purpose.
+As the outcome shows, we claim parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR in parallel for massive datasets.
 Moreover, fault tolerance can be provided for those lengthy distributed computations both on algorithm level and system level.
 We discussed the balance between dataset size, choosing parallel system, and choosing parallel algorithm through concrete experimental results.
-Also, fault tolerance can be provided for those lengthy distributed computations both on algorithm level and system level.
-As the outcome shows, we recommend parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR for general purpose.
 
 \begin{small}
 \bibliographystyle{plain}
 \bibliography{mlpaper}
 \end{small}
 \end{document}
-
-
-
-

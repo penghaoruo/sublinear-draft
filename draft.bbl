@@ -47,6 +47,11 @@ S.~J. Delany, P.~Cunningham, A.~Tsymbal, and L.~Coyle.
 \newblock A case-based technique for tracking concept drift in spam filtering.
 \newblock {\em Knowledge-Based Systems}, 18(4--5):187--195, 2005.
 
+\bibitem{fan2008liblinear}
+Rong-En Fan, Kai-Wei Chang, Cho-Jui Hsieh, Xiang-Rui Wang, and Chih-Jen Lin.
+\newblock Liblinear: A library for large linear classification.
+\newblock {\em The Journal of Machine Learning Research}, 9:1871--1874, 2008.
+
 \bibitem{garberapproximating}
 D.~Garber and E.~Hazan.
 \newblock Approximating semidefinite programs in sublinear time.
