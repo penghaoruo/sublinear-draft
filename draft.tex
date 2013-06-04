@@ -160,6 +160,7 @@ We then make a comparison between these algorithms implemented on different syst
 As the outcome shows, we claim parallel sublinear method implemented on Spark is the most computational efficient way to solve PLR for general purpose.
 Moreover, fault tolerance can be provided for those lengthy distributed computations both on algorithm level and system level.
 %We have released all experiment codes to open source at https://github.com/penghaoruo/PPLR.
+\comment{change description of Mahout}
 \end{abstract}
 
 \section{Introduction} \label{sec:int}
@@ -168,7 +169,7 @@ The model serves for classification problems, and enjoys a substantial body of s
 PLR is competitive with the support vector machines (SVMs) \cite{Vapnik:1998}, because it has both high accuracy and interpretability (PLR can directly estimate a conditional class probability).
 Thus, a binary classification problem modeled by PLR can be easily extended to a multi-classification problem.
 We will focus on the binary PLR model in the following.
-A wide variety of other classification algorithms exist in the literature.
+A wide variety of other classification algorithms exist in the literature. \commnet{change}
 One might ask why we are motivated to use PLR for classification instead of other usual candidates.
 Our motivation for exploring PLR as a fast classifier to be used in data mining applications is its maturity.
 It has a statistical foundation which could be used to extend classification results into a deeper analysis.
@@ -181,7 +182,7 @@ Especially, PLR is a widely used model in algorithms like PageRank~\cite{page199
 
 We tackle these challenges on algorithm level and fully exploit the benefits of parallelization.
 When developing parallel algorithms for PLR, it is unavoidable to come across the question of choosing which parallel system to use and which parallel framework to employ.
-After a thorough survey, we choose three unique and best-known systems to test: Hadoop~\cite{white2012hadoop}, Mahout~\cite{mahoutscalable} and Spark~\cite{zaharia2010spark}.
+After a thorough survey, we choose three unique and best-known systems to test: Hadoop~\cite{white2012hadoop}, Mahout~\cite{mahoutscalable} and Spark~\cite{zaharia2010spark}. \comment{change}
 Hadoop employs HDFS~\cite{borthakur2008hdfs} and MapReduce~\cite{dean2008mapreduce}. Mahout runs on Apache Hadoop~\cite{gropp1999using} and make improvements in the low level code. Spark features for iterative algorithms and also supports HDFS.
 We will introduce the features of them separately in detail in related work section.
 
@@ -298,7 +299,7 @@ The second one is the \textit{stochastic dual update}:
 \subsection{Sequential Sublinear Algorithm for Logistic Regression} \label{sec:l2alg}
 We use the following notations to define sequential sublinear algorithm for penalized logistic regression.
 Much of them are borrowed from~\cite{peng2012sublinear}.
-We will also use these notations in other algorithm definitions in the following.  
+We will also use these notations in other algorithm definitions in the following.
 
 $clip\lc \cdot \rc$ is a projection function defined as follows:
 \[
@@ -349,7 +350,7 @@ In Algorithm~1, we give the sequential sublinear approximation procedure for log
 	\end{tabular} 	
 	\label{alg:1}
 	\end{table}
-    
+
 In the pseudo-code of Algorithm 1, line 4 to line 11 is the primal part, where $coef$ is the estimator of the gradient.
 Line 12 to line 16 is the dual part, where $\sigma$ serves as an estimator of hard margin plus soft margin.
 $\sigma$ also serves as the derivative of $\bp(i)$.
@@ -368,7 +369,7 @@ We will also formally introduce the traditional parallel gradient algorithm we u
 
 \subsection{Parallel Sublinear algorithms in Hadoop MapReduce}
 We develop an approach to solve sublinear learning for penalized logistic regression using the architecture of MapReduce.
-The pseudo-code of Algorithm 2, Procedure for Primal-Map, Procedure for Primal-Reduce, Procedure for PrimalUpdate, Procedure for Dual-Map, and Procedure for DualUpdate explain the critical parts of this algorithm. 
+The pseudo-code of Algorithm 2, Procedure for Primal-Map, Procedure for Primal-Reduce, Procedure for PrimalUpdate, Procedure for Dual-Map, and Procedure for DualUpdate explain the critical parts of this algorithm.
 	\begin{table}[ht]
 	\begin{tabular}{l}
 	\hline\noalign{\smallskip}
@@ -498,7 +499,7 @@ It remains to have two computational components in each iteration: the primal up
 Within the primal update part, there has been a parallel implementation period from line 4 to line 11, and also a unavoidable sequential period as illustrated in line 12.
 Within the dual part, it is the same situation that a parallel implementation period from line 14 to 20 is surrounded by sequential periods for line 13 and line 21.
 Moreover, as the primal part and dual part are decoupled in the sense of the parameters that they affect. We can start these two separate MapReduce jobs in a iteration simultaneously.
-This brings us further parallelization and makes the algorithm more efficient. 
+This brings us further parallelization and makes the algorithm more efficient.
 This framework is shown explicitly in Fig.~\ref{fig:frame}.
 
 \begin{figure}[tb] \label{fig:frame}
@@ -519,7 +520,7 @@ There are also three more things that have to be addressed here.
 First is the parameter passing issues. It critical to choose an efficient way to pass the updated parameters between iteration and even between different MapReduce jobs.
 It is even more challenging when we have to deal with HDFS. It is clear that the fastest communication way is to pass parameters by \textit{Configuration()}.
 However, it always has memory buffer size limits, and will greatly impair scalability when the number of parameters is huge.
-Another way is to compress the parameter sequence in a string when sending and uncompress them when receiving. It has computational overhead and it still can not avoid the issue of memory buffer limit. 
+Another way is to compress the parameter sequence in a string when sending and uncompress them when receiving. It has computational overhead and it still can not avoid the issue of memory buffer limit.
 Thinking back on the philosophy of the design of Hadoop, the natural thing is to pass parameters by file, the same way to pass all the data.
 We admit that it is inefficient, but it is the only way to support for large datasets.
 
@@ -793,11 +794,11 @@ We can come up with following conclusions.
 \begin{enumerate}
     \item Liblinear always performs the best. It fully utilizes memory and single machine implementation does not require any communication between machines, which causes overhead.
           However, its scalability is limited by the memory size of the single machine that it runs on. This prevents its use in massive datasets.
-          Nevertheless, if the dataset can be fully loaded into a single machine's memory, this efficient and direct sequential way of implementation is still recommended. 
+          Nevertheless, if the dataset can be fully loaded into a single machine's memory, this efficient and direct sequential way of implementation is still recommended.
     \item Mahout's precision is not good, especially for those datasets in which positive and negative instances are not balanced.
           However, it is a representative of sequential algorithm that can train massive data in acceptable time.
           When we monitor its memory when running, it is much lower than Liblinear. This is the advantage that the online algorithm brings.
-          Thus, it provides good scalability guarantee. If you are in the situation of single machine and limited memory, sequential online training like Mahout is recommended. 
+          Thus, it provides good scalability guarantee. If you are in the situation of single machine and limited memory, sequential online training like Mahout is recommended.
     \item The precision of all sublinear methods is acceptable. The developed parallel sublinear algorithm only has a small drop in precision.
     \item Hadoop system has a great drawback for running PLR optimization methods. Its cluster programming model is based on acyclic data flow from stable storage to stable storage.
           Though it has the benefits of deciding where to run tasks and can automatically recover from failures in runtime, acyclic data flow is inefficient for iterative algorithms.
@@ -885,7 +886,7 @@ This is tested on 6 nodes.
 \end{figure}
 As the outcome shows, PSUBPLR-MR suffers no running time increase per iteration when maps failed. But it takes the cost of precision loss if we enforce no additional iterations are implemented.
 PGDPLR-SPARK and PSUBPLR-SPARK will increase iteration time right after the maps failed. It is due to RDD reconstruction. The increase is not significant.
-This difference also proves the different mechanism of fault tolerance between Hadoop and Spark. 
+This difference also proves the different mechanism of fault tolerance between Hadoop and Spark.
 
 \section{Conclusion} \label{sec:concl}
 %conclusion & contribution & future work
