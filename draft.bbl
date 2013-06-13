@@ -6,13 +6,6 @@ Ion Androutsopoulos, John Koutsias, Konstantinos~V Chandrinos, George
 \newblock An evaluation of naive bayesian anti-spam filtering.
 \newblock {\em arXiv preprint cs/0006013}, 2000.
 
-\bibitem{arora2005multiplicative}
-S.~Arora, E.~Hazan, and S.~Kale.
-\newblock The multiplicative weights update method: a meta algorithm and
-  applications.
-\newblock {\em Manuscript, 2005. Preliminary draft of paper available online at
-  http://www.cs.princeton.edu/~arora/pubs/MWsurvey.pdf}, 2005.
-
 \bibitem{borthakur2008hdfs}
 Dhruba Borthakur.
 \newblock Hdfs architecture guide.
@@ -57,17 +50,6 @@ D.~Garber and E.~Hazan.
 \newblock Approximating semidefinite programs in sublinear time.
 \newblock In {\em Advances in Neural Information Processing Systems}, 2011.
 
-\bibitem{genkin2007large}
-A.~Genkin, D.D. Lewis, and D.~Madigan.
-\newblock Large-scale bayesian logistic regression for text categorization.
-\newblock {\em Technometrics}, 49(3):291--304, 2007.
-
-\bibitem{gropp1999using}
-William Gropp, Ewing~L Lusk, and Anthony Skjellum.
-\newblock {\em Using MPI-: Portable Parallel Programming with the Message
-  Passing Interface}, volume~1.
-\newblock MIT press, 1999.
-
 \bibitem{guyon2004result}
 I.~Guyon, S.~Gunn, A.~Ben-Hur, and G.~Dror.
 \newblock Result analysis of the nips 2003 feature selection challenge.
@@ -103,6 +85,18 @@ Quoc~V Le, Marc'Aurelio Ranzato, Rajat Monga, Matthieu Devin, Kai Chen, Greg~S
 \newblock Building high-level features using large scale unsupervised learning.
 \newblock {\em arXiv preprint arXiv:1112.6209}, 2011.
 
+\bibitem{lewis2004rcv1}
+David~D Lewis, Yiming Yang, Tony~G Rose, and Fan Li.
+\newblock Rcv1: A new benchmark collection for text categorization research.
+\newblock {\em The Journal of Machine Learning Research}, 5:361--397, 2004.
+
+\bibitem{lewis2008tastes}
+Kevin Lewis, Jason Kaufman, Marco Gonzalez, Andreas Wimmer, and Nicholas
+  Christakis.
+\newblock Tastes, ties, and time: A new social network dataset using facebook.
+  com.
+\newblock {\em Social Networks}, 30(4):330--342, 2008.
+
 \bibitem{ma2009identifying}
 Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
 \newblock Identifying suspicious urls: an application of large-scale online
@@ -127,22 +121,16 @@ Haoruo Peng, Zhengyu Wang, Edward~Y Chang, Shuchang Zhou, and Zhihua Zhang.
 \newblock In {\em Machine Learning and Knowledge Discovery in Databases}, pages
   553--568. Springer, 2012.
 
-\bibitem{tibshirani1996regression}
-R.~Tibshirani.
-\newblock Regression shrinkage and selection via the lasso.
-\newblock {\em Journal of the Royal Statistical Society. Series B
-  (Methodological)}, pages 267--288, 1996.
+\bibitem{sarwar2001item}
+Badrul Sarwar, George Karypis, Joseph Konstan, and John Riedl.
+\newblock Item-based collaborative filtering recommendation algorithms.
+\newblock In {\em Proceedings of the 10th international conference on World
+  Wide Web}, pages 285--295. ACM, 2001.
 
-\bibitem{tsumoto2004mining}
-S.~Tsumoto.
-\newblock Mining diagnostic rules from clinical databases using rough sets and
-  medical diagnostic model.
-\newblock {\em Information sciences}, 162(2):65--80, 2004.
-
-\bibitem{Vapnik:1998}
-V.~Vapnik.
-\newblock {\em Statistical Learning Theory}.
-\newblock John Wiley and Sons, New York, 1998.
+\bibitem{subhlok1993exploiting}
+Jaspal Subhlok, James~M Stichnoth, David~R O'hallaron, and Thomas Gross.
+\newblock Exploiting task and data parallelism on a multicomputer.
+\newblock {\em ACM SIGPLAN Notices}, 28(7):13--22, 1993.
 
 \bibitem{wang2009plda}
 Yi~Wang, Hongjie Bai, Matt Stanton, Wen-Yen Chen, and Edward~Y Chang.
