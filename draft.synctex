@@ -1,12 +1,12 @@
 SyncTeX Version:1
-Input:1:G:/hadoop_sublinear/git-project/sublinear-draft/draft.tex
-Input:2:G:/hadoop_sublinear/git-project/sublinear-draft/llncs.cls
+Input:1:I:/≈ÌÍª»Ù/HTC_Intern/sublinear-draft/draft.tex
+Input:2:I:/≈ÌÍª»Ù/HTC_Intern/sublinear-draft/llncs.cls
 Input:3:D:/CTEX/MiKTeX/tex/latex/base/article.cls
 Input:4:D:/CTEX/MiKTeX/tex/latex/base/size10.clo
 Input:5:D:/CTEX/MiKTeX/tex/latex/tools/multicol.sty
 Input:6:D:/CTEX/MiKTeX/tex/latex/oberdiek/aliascnt.sty
-Input:7:G:/hadoop_sublinear/git-project/sublinear-draft/remreset.sty
-Input:8:G:/hadoop_sublinear/git-project/sublinear-draft/llncsdoc.sty
+Input:7:I:/≈ÌÍª»Ù/HTC_Intern/sublinear-draft/remreset.sty
+Input:8:I:/≈ÌÍª»Ù/HTC_Intern/sublinear-draft/llncsdoc.sty
 Input:9:D:/CTEX/MiKTeX/tex/latex/ams/math/amsmath.sty
 Input:10:D:/CTEX/MiKTeX/tex/latex/ams/math/amstext.sty
 Input:11:D:/CTEX/MiKTeX/tex/latex/ams/math/amsgen.sty
@@ -23,7 +23,7 @@ Input:21:D:/CTEX/MiKTeX/tex/latex/graphics/graphics.sty
 Input:22:D:/CTEX/MiKTeX/tex/latex/graphics/trig.sty
 Input:23:D:/CTEX/MiKTeX/tex/latex/00miktex/graphics.cfg
 Input:24:D:/CTEX/MiKTeX/tex/latex/bbding/bbding.sty
-Input:25:G:/hadoop_sublinear/git-project/sublinear-draft/draft.aux
+Input:25:I:/≈ÌÍª»Ù/HTC_Intern/sublinear-draft/draft.aux
 Input:26:D:/CTEX/MiKTeX/tex/context/base/supp-pdf.mkii
 Input:27:D:/CTEX/MiKTeX/tex/latex/amsfonts/umsa.fd
 Input:28:D:/CTEX/MiKTeX/tex/latex/amsfonts/umsb.fd
@@ -33,7 +33,7 @@ Unit:1
 X Offset:0
 Y Offset:0
 Content:
-!1656
+!1601
 {1
 [1,182:4736286,45574276:26877856,40837990,0
 [1,182:8865054,45574276:22749088,39789414,0
@@ -26564,8 +26564,8 @@ h1,901:8865054,45574276:22749088,0,0
 ]
 !15230
 }21
-Input:30:G:/hadoop_sublinear/git-project/sublinear-draft/draft.bbl
-!78
+Input:30:I:/≈ÌÍª»Ù/HTC_Intern/sublinear-draft/draft.bbl
+!67
 {22
 [30,34:4736286,45574276:26877856,40837990,0
 [30,34:8865054,45574276:22749088,39789414,0
@@ -29575,8 +29575,8 @@ h1,906:8865054,45574276:22749088,0,0
 ]
 !13065
 }24
-Input:31:G:/hadoop_sublinear/git-project/sublinear-draft/draft.aux
-!78
+Input:31:I:/≈ÌÍª»Ù/HTC_Intern/sublinear-draft/draft.aux
+!67
 Postamble:
 Count:15201
 !27

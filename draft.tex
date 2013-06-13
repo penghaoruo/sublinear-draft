@@ -1,6 +1,6 @@
 % This is paper draft
 % edited by Haoruo Peng
-% Date: 2013.5.27
+% Date: 2013.6.12
 \documentclass{llncs}
 \usepackage{llncsdoc}
 \usepackage{amsmath, amssymb}
@@ -123,10 +123,10 @@
 \mainmatter  % start of an individual contribution
 
 % first the title is needed
-\title{Massively Parallel Learning for Penalized Logistic Regression Model}
+\title{Learning for Penalized Logistic Regression Model in Parallel}
 
 % a short form should be given in case it is too long for the running head
-\titlerunning{Massively Parallel Learning for Penalized Logistic Regression Model}
+\titlerunning{Learning for Penalized Logistic Regression Model in Parallel}
 
 %
 %\author{Haoruo Peng\inst{1, 2}  \and Ding Liang\inst{1} \and Cyrus Choi\inst{1} \and Edward Y. Chang\inst{1} \and Yin Zhao\inst{2}}
@@ -150,9 +150,10 @@
 \maketitle
 
 \begin{abstract}
-Penalized logistic regression (PLR) is a widely used supervised learning model.
-This paper addresses the issue of computational efficiency for solving PLR in big data scenario.
-We focus on algorithm level and employ three different parallel computation systems with three different types of parallel algorithms to efficiently improve scalability.
+Logistic regression (LR) model has a variety of applications in the field of machine learning.
+It is a supervised learning model, and can be extended to models with regularization, which enjoy the benefits of solid statistical base. 
+This paper addresses the issue of computational efficiency for solving LR in big data scenario.
+We focus both on algorithm level and system level. employ three different parallel computation systems with three different types of parallel algorithms to efficiently improve scalability.
 Hadoop, Mahout and Spark are three existing well-known parallel systems that can be implemented with large scale machine learning algorithms.
 Parallel gradient Descent and stochastic gradient descent are two existing state-of-art algorithms for parameter optimization in PLR.
 We also present a novel parallel sublinear method based on its sequential version.
@@ -903,4 +904,8 @@ We discussed the balance between dataset size, choosing parallel system, and cho
 \bibliographystyle{plain}
 \bibliography{mlpaper}
 \end{small}
+<<<<<<< HEAD
 \end{document} 
+=======
+\end{document} 
+>>>>>>> 8e08d45dd56f512b5f3a1578f8f0284db04e47a9
