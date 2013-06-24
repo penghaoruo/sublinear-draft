@@ -12,6 +12,12 @@ Dhruba Borthakur.
 \newblock {\em Hadoop Apache Project. http://hadoop. apache.
   org/common/docs/current/hdfs\_design. pdf}, 2008.
 
+\bibitem{chang2011foundations}
+Edward~Y Chang.
+\newblock {\em Foundations of Large-Scale Multimedia Information Management and
+  Retrieval}.
+\newblock Springerverlag Berlin Heidelberg and Tsinghua University Press, 2011.
+
 \bibitem{chang2011psvm}
 Edward~Y Chang.
 \newblock Psvm: Parallelizing support vector machines on distributed computers.
@@ -62,12 +68,6 @@ T.~Hastie, R.~Tishirani, and J.~Friedman.
   and Prediction}.
 \newblock Springer-Verlag, New York, 2001.
 
-\bibitem{hazan2011optimal}
-E.~Hazan and T.~Koren.
-\newblock Optimal algorithms for ridge and lasso regression with partially
-  observed attributes.
-\newblock {\em Arxiv preprint arXiv:1108.4559}, 2011.
-
 \bibitem{hazanbeating}
 E.~Hazan, T.~Koren, and N.~Srebro.
 \newblock Beating sgd: Learning svms in sublinear time.
@@ -84,11 +84,6 @@ Quoc~V Le, Marc'Aurelio Ranzato, Rajat Monga, Matthieu Devin, Kai Chen, Greg~S
   Corrado, Jeff Dean, and Andrew~Y Ng.
 \newblock Building high-level features using large scale unsupervised learning.
 \newblock {\em arXiv preprint arXiv:1112.6209}, 2011.
-
-\bibitem{lewis2004rcv1}
-David~D Lewis, Yiming Yang, Tony~G Rose, and Fan Li.
-\newblock Rcv1: A new benchmark collection for text categorization research.
-\newblock {\em The Journal of Machine Learning Research}, 5:361--397, 2004.
 
 \bibitem{lewis2008tastes}
 Kevin Lewis, Jason Kaufman, Marco Gonzalez, Andreas Wimmer, and Nicholas
@@ -108,6 +103,12 @@ Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
 Apache Mahout.
 \newblock Scalable machine-learning and data-mining library.
 \newblock {\em available at mahout. apache. org}.
+
+\bibitem{newman2007distributed}
+David Newman, Arthur Asuncion, Padhraic Smyth, and Max Welling.
+\newblock Distributed inference for latent dirichlet allocation.
+\newblock {\em Advances in neural information processing systems},
+  20(1081-1088):17--24, 2007.
 
 \bibitem{page1999pagerank}
 Lawrence Page, Sergey Brin, Rajeev Motwani, and Terry Winograd.
