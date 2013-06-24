@@ -19,10 +19,11 @@ Edward~Y Chang.
 \newblock Springerverlag Berlin Heidelberg and Tsinghua University Press, 2011.
 
 \bibitem{chang2011psvm}
-Edward~Y Chang.
+Edward~Y Chang, Kaihua Zhu, Hao Wang, Hongjie Bai, Jian Li, Zhihuan Qiu, and
+  Hang Cui.
 \newblock Psvm: Parallelizing support vector machines on distributed computers.
-\newblock In {\em Foundations of Large-Scale Multimedia Information Management
-  and Retrieval}, pages 213--230. Springer, 2011.
+\newblock {\em Advances in Neural Information Processing Systems}, 20:213--230,
+  2007.
 
 \bibitem{clarkson2010sublinear}
 K.L. Clarkson, E.~Hazan, and D.P. Woodruff.
@@ -92,6 +93,12 @@ Kevin Lewis, Jason Kaufman, Marco Gonzalez, Andreas Wimmer, and Nicholas
   com.
 \newblock {\em Social Networks}, 30(4):330--342, 2008.
 
+\bibitem{Liu:2011:PPL:1961189.1961198}
+Zhiyuan Liu, Yuzhou Zhang, Edward~Y. Chang, and Maosong Sun.
+\newblock Plda+: Parallel latent dirichlet allocation with data placement and
+  pipeline processing.
+\newblock {\em ACM Trans. Intell. Syst. Technol.}, 2(3):26:1--26:18, May 2011.
+
 \bibitem{ma2009identifying}
 Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
 \newblock Identifying suspicious urls: an application of large-scale online
@@ -132,13 +139,6 @@ Badrul Sarwar, George Karypis, Joseph Konstan, and John Riedl.
 Jaspal Subhlok, James~M Stichnoth, David~R O'hallaron, and Thomas Gross.
 \newblock Exploiting task and data parallelism on a multicomputer.
 \newblock {\em ACM SIGPLAN Notices}, 28(7):13--22, 1993.
-
-\bibitem{wang2009plda}
-Yi~Wang, Hongjie Bai, Matt Stanton, Wen-Yen Chen, and Edward~Y Chang.
-\newblock Plda: Parallel latent dirichlet allocation for large-scale
-  applications.
-\newblock In {\em Algorithmic Aspects in Information and Management}, pages
-  301--314. Springer, 2009.
 
 \bibitem{white2012hadoop}
 Tom White.

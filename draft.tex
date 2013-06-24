@@ -191,7 +191,7 @@ In big data scenarios, large datasets require us to develop machine learning alg
 Researchers have already done much work to cater for the needs of massive datasets.
 Early work like Parallel Support Vector Machines (PSVM)~\cite{chang2011psvm} employed an approximation matrix decomposition method based on row selections to reduce memory usage.
 It can then increase the number of parallel computational nodes to several hundreds.
-Later, the work of Parallel Latent Dirichlet Allocation (PLDA)~\cite{wang2009plda}~\cite{newman2007distributed} improves the computational efficiency of the LDA model by means of sampling methods.
+Later, the work of Parallel Latent Dirichlet Allocation (PLDA)~\cite{Liu:2011:PPL:1961189.1961198}~\cite{newman2007distributed} improves the computational efficiency of the LDA model by means of sampling methods.
 The parallel algorithm in Hadoop is robust, for it has fault tolerance of machine failures, thus taking advantage of Hadoop features.
 Recently, Dean \etal~\cite{le2011building} claimed that the advantage of parallelization is fully taken in deep learning algorithms.
 It pushed the limit of parallel computational nodes to a hundred-million level, and in the meantime, achieved the best learning performance ever.
@@ -849,8 +849,8 @@ This difference also reveals the different mechanism of fault tolerance between 
 \section{Conclusion} \label{sec:concl}
 In this paper we analyzed three optimization approaches along with three computing platforms to train LR model on large-scale, high-dimensional datasets for classification. In addition, we presented a novel parallel sublinear algorithm for LR implemented on both Hadoop and Spark. Based on extensive experiments, we summarized key features of each algorithm implemented on different computing platforms.
 We can conclude that sequential algorithms with memory intensive operations like Liblinear can perform very well if datasets can fit in memory.
-For massive datasets, if limited by machine resources, Mahout with its online algorithm is a choice with relatively low precision.
-If we have enough machines, as Spark outperforms Hadoop for LR model training, we recommend to choose between parallel sublinear method and parallel gradient descent method (both implemented in Spark) to trade off between running time and precision.
+For massive datasets, if limited by machine resources, Mahout with its online algorithm is a good choice with a slightly lower precision.
+If machine resources are abundant, as Spark outperforms Hadoop for LR model training, we recommend to choose between parallel sublinear method and parallel gradient descent method (both implemented in Spark) to trade off between speedup and precision.
 Our future work will focus on combining algorithm design and computing platforms to optimize classifiers in machine learning.
 
 \begin{small}
