@@ -118,28 +118,29 @@
 
 \author{
 \IEEEauthorblockN{Haoruo Peng}
-\IEEEauthorblockA{HTC Research Center\\Beijing, China\\penghaoruo@hotmail.com}
+\IEEEauthorblockA{HTC Research Lab\\Beijing, China\\penghaoruo@hotmail.com}
 \and
 \IEEEauthorblockN{Ding Liang}
-\IEEEauthorblockA{HTC Research Center\\Beijing, China\\Ding\_Liang@htc.com}
+\IEEEauthorblockA{HTC Research Lab\\Beijing, China\\Ding\_Liang@htc.com}
 \and
 %\IEEEauthorblockN{Deli Zhao}
 %\IEEEauthorblockA{HTC Research Lab\\Beijing, China\\zhaodeli@gmail.com}
 %\and
 \IEEEauthorblockN{Cyrus Choi}
-\IEEEauthorblockA{HTC Research Center\\Beijing, China\\Cyrus\_Choi@htc.com}
+\IEEEauthorblockA{HTC Research Lab\\Beijing, China\\Cyrus\_Choi@htc.com}
 \and
 \IEEEauthorblockN{Edward Y. Chang}
-\IEEEauthorblockA{HTC Research Center\\Beijing, China\\Edward\_Chang@htc.com}
+\IEEEauthorblockA{HTC Research Lab\\Beijing, China\\Edward\_Chang@htc.com}
 }
 
 \maketitle
 
 \begin{abstract}
 Logistic regression (LR) model has various applications in machine learning.
-LR is a supervised learning model for pattern classification and enjoys the benefits of statistical principles. However, the large-scale data will lead to the computational difficulty of optimization. In this paper, we address the issue of computational efficiency of solving LR in the big data scenario.
+LR is a supervised learning model for pattern classification and enjoys the benefits of statistical principles.
+This paper addresses the issue of computational efficiency for solving LR in big data scenario.
 We compare the performance between different computing platforms and different parallel algorithms.
-Our goal is to provide constructive suggestions on choosing computing platforms and learning algorithms according to different application situations for specific datasets and machine resources.
+Our goal is to provide valuable suggestions on choosing computing platforms and learning algorithms according to different application situations for specific datasets and machine resources.
 We also present a novel parallel sublinear method to optimize the solution of LR.
 Overall, two different parallel computing platforms along with three different types of parallel algorithms are carefully studied in this paper.
 To enhance capability, we consider the tradeoff between efficiency and accuracy.
@@ -167,18 +168,18 @@ In this paper, we mainly discuss issues in task parallelism.
 When developing parallel algorithms for LR, it is inevitable to come across the question of choosing which parallel computing platform to employ.
 After a thorough survey, we choose two unique and best-known computing platforms to test: Hadoop~\cite{white2012hadoop} and Spark~\cite{zaharia2010spark}.
 Hadoop employs HDFS~\cite{borthakur2008hdfs} and MapReduce~\cite{dean2008mapreduce}.
-Spark promotes the efficiency of iterative algorithms and also supports HDFS.
-We will compare the design features of these two computing platforms in Section~\ref{sec:platform}.
+Spark promotes efficiency of iterative algorithms and also supports HDFS.
+We will compare design features of these two computing platforms in Section~\ref{sec:platform}.
 
 In sequential optimization algorithms for LR model, a classical way is to resort to stochastic approximation methods.
 Stochastic approximation methods, such as stochastic gradient descent~\cite{zhang2004solving} and stochastic dual averaging~\cite{xiao2010dual}, obtain optimal generalization guarantees with a small number of passes over data with runtime linear to the dataset size.
 The stochastic gradient descent method can work in an online fashion, as we view sampled data points as data stream over algorithmic iteration.
 It is hard to be changed to task-parallelism, but it is blazingly fast.
-If we take a step back to the general gradient descent to solve the LR model, we can find that it can be actually embarrassingly parallel.
+If we take a step back to the general gradient descent to solve LR model, we can find that it can be actually embarrassingly parallel.
 We can take in all of the data at the same iteration and just compute the gradient in a MapReduce fashion.
 We can further speed up the runtime by employing sublinear algorithms~\cite{peng2012sublinear} via the application of the stochastic approximation idea.
 These methods access a single feature of feature vectors instead of entire feature vectors at each iteration.
-We propose a parallel version of this algorithm and achieve the result of comparable accuracy while being of faster convergence.
+We propose a parallel version of this algorithm and achieve the result of comparable accuracy while being faster convergent.
 
 \section{Related Work} \label{sec:rew}
 
@@ -186,11 +187,11 @@ We propose a parallel version of this algorithm and achieve the result of compar
 %
 %In big data scenarios, large datasets require us to develop machine learning algorithms towards a more efficient and more parallelized end. Researchers have already done much work to cater for the needs of massive datasets. Early work like Parallel Support Vector Machines (PSVM)~\cite{chang2011psvm} employed an approximation matrix decomposition method based on row selections to reduce memory usage. It can then increase the number of parallel computational nodes to several hundreds. Later, the work of Parallel Latent Dirichlet Allocation (PLDA)~\cite{Liu:2011:PPL:1961189.1961198}~\cite{newman2007distributed} improves the computational efficiency of the LDA model by means of sampling methods. The parallel algorithm in Hadoop is robust, for it has fault tolerance of machine failures, thus taking advantage of Hadoop features. Recently, Dean \etal~\cite{le2011building} claimed that the advantage of parallelization is fully taken in deep learning algorithms. It pushed the limit of parallel computational nodes to a hundred-million level, and in the meantime, achieved the best learning performance ever. GraphLab~\cite{kyrola2012graphchi} is a recently developed tool for large-scale machine learning. It tackles efficiency and scalability problems of machine leaning algorithms by graph-theoretical models.
 
-In this paper, we specifically compare the parallelization of LR in the two dimensions: platform and algorithm.
+In this paper, we specifically compares parallelization efforts of LR in two dimensions: platform and algorithm.
 \subsection{Computing Platforms}\label{sec:platform}
 Two computing platforms that we are working on have their own advantages to implement machine learning algorithms.
 The Hadoop~\cite{white2012hadoop} platform allows for distributed processing of large datasets across clusters of computers using simple programming models. It utilizes MapReduce~\cite{dean2008mapreduce} as its computational paradigm, which is easy to be parallelized. In addition, Hadoop provides a Distributed File System (HDFS). Both MapReduce and HDFS are designed to handle node failures in an automatic way, making Hadoop support large clusters that are built on commodity hardware.
-Spark~\cite{zaharia2010spark} is a cluster computing system that aims to make data analysis fast. It supports the in-memory cluster computing. A job can load data into memory and query it repeatedly by creating and caching resilient distributed datasets (RDDs). Moreover, RDDs achieve fault tolerance through lineage: information about how RDDs are derived from other RDDs is stored in reliable storage, thus making RDDs easy to be rebuilt if a certain partition is lost. Spark can run up to be two orders faster than Hadoop for iterative algorithms.
+Spark~\cite{zaharia2010spark} is a cluster computing system that aims to make data analysis fast. It supports in-memory cluster computing. A job can load data into memory and query it repeatedly by creating and caching resilient distributed datasets (RDDs). Moreover, RDDs achieve fault tolerance through lineage: information about how RDDs are derived from other RDDs is stored in reliable storage, thus making RDDs easy to be rebuilt if a certain partition is lost. Spark can run up to 100 times faster than Hadoop for iterative algorithms.
 
 In Table~\ref{tab:systemcmp}, we compare different features between Hadoop and Spark computing platforms.
 For simplicity, we use short abbreviations in the table.
@@ -216,7 +217,7 @@ Fault Tolerance Technique & Redundancy & Lineage \\
 \end{tabular}\vspace{-0.5cm}
 \end{table}
 
-It is worth mentioning that Apache Mahout~\cite{mahoutscalable} runs on Hadoop, and it is a scalable machine learning library. It integrates many important algorithms for clustering, classification and collaborative filtering in its package. It is highly optimized so that Mahout also has the good performance for non-distributed algorithms. We will use it as a baseline in the experiments.
+It is worth mentioning that Apache Mahout~\cite{mahoutscalable} runs on Hadoop, and it is a scalable machine learning library. It integrates many core algorithms for clustering, classification and collaborative filtering in its package. It is highly optimized so that Mahout also has good performance for non-distributed algorithms. We will use it as a baseline in the experiments.
 
 \subsection{Sublinear Methods}
 Sublinear methods are recently proposed by many researchers.
@@ -232,7 +233,7 @@ Peng \etal~\cite{peng2012sublinear} utilized the method in the LR model with pen
 \section{Logistic Regression Model and Sequential Sublinear Algorithm} \label{sec:plr}
 
 \subsection{Logistic Regression Model} \label{sec:def}
-In this paper, we mainly concern the binary classification problem.  	
+In this paper, we are mainly concerned with the binary classification problem.  	
 We define the training dataset as $\XM=\{(\x_i, y_i): i=1, \ldots, n\}$, where $\x_i \in \RB^d$ are input samples and $y_i \in \{-1, 1\}$ are the corresponding labels.
 For simplicity, we will use the notation $\X=[{\x}_{1}, {\x}_{2}, \ldots, {\x}_n]^{T}$ and $\y=(y_1, y_2, \ldots, y_n)^T$ to represent the training dataset in the following.
 To fit in the logistic regression model, the expected value of $y_i$ is given by\vspace{-0.2cm}
@@ -258,7 +259,7 @@ We use the following notations to define sequential sublinear algorithm for pena
 clip\lc a,b \rc \triangleq \max \lc \min \lc a,b \rc ,-b\rc,\,a,b\in \mathbb{R}$. $\sgn \lc \cdot \rc$ is the sign function; namely, $\sgn \lc \cdot \rc \in \{-1,0,1\}$.
 $g\lc \cdot \rc$ is the logistic function $g \lc x \rc=1/(1+e^{-x})$.
 
-In Algorithm~1, we give the sequential sublinear approximation procedure for logistic regression. The algorithm is mainly from~\cite{peng2012sublinear}. Mathematical symbols we use here comply with definitions in Section~\ref{sec:def}. $\varepsilon$ controls learning rate, $T$ determines iteration number, and $\eta$ defines approximation level. Details of the parameter initialization step are studied in~\cite{peng2012sublinear}. To be concise, we omit them in this paper.
+In Algorithm~1, we give the sequential sublinear approximation procedure for logistic regression. The algorithm is mainly from~\cite{peng2012sublinear}. Symbols we use here comply with the definition in Section~\ref{sec:def}. $\varepsilon$ controls learning rate, $T$ determines iteration number, and $\eta$ defines approximation level. Details of the parameter initialization step is studied in~\cite{peng2012sublinear}. To be concise, we omit them in this paper.
 	\begin{table} [ht]
 	\begin{tabular}{l}
 	\hline\noalign{\smallskip}
@@ -588,7 +589,7 @@ The simulated \textbf{2d} dataset represents toy data situations and serves for 
 The \textbf{20NewsGroup} dataset is best-known for the test of LR model, which has a balanced distribution between positive and negative data instances. It also shows the application towards topic classification.
 The \textbf{Gisette} dataset~\cite{guyon2004result} is relatively larger, and feature vectors are less sparse.
 The \textbf{ECUESpam} dataset~\cite{DelanyKBS05} is selected due to its imbalanced distribution between positive and negative data instances. It has a higher data dimensionality than the \textbf{Gisette} dataset. However, because of data sparsity, it has fewer nonzero values involved in the computation.
-Finally, the \textbf{URL-Reputation} dataset~\cite{ma2009identifying} contains millions of data instances and features. The raw data are stored in the SVM-light format, which has the volume of more than 2GB. It can be seen as a representative of massive datasets in the sense that it exceeds the scalability of Liblinear, which will be shown below.
+Finally, the \textbf{URL-Reputation} dataset~\cite{ma2009identifying} contains millions of data instances and features. The raw data are stored in the svmlight format, which has the volume of more than 2GB. It can be seen as a representative of massive datasets in the sense that it exceeds the scalability of Liblinear, which will be shown below.
 
 \subsection{Cluster Information}
 The cluster that we implement on has the configurations shown in Table~\ref{tab:table2}.
@@ -653,7 +654,7 @@ PSUBPLR-SPARK & 90.5\% & 95.8\% & 91.7\% & 94.0\% \\
 %
 These are the averaged results of cross validation.
 In Figures~\ref{fig:accuracy} (a)-(d), we show the test error as a function of iteration number on each dataset for all six test programs.
-Note that Liblinear cannot be implemented with the full \textbf{URL-Reputation} dataset on our machines due to memory limit.
+Note that Liblinear cannot be implemented with the full \textbf{URL-Reputation} dataset on our machine due to memory limit.
 This proves the scalability issue of Liblinear.
 In the tests, Liblinear can handle $33.3\%$ of the whole data volume at most, with the test accuracy of $96.2\%$ and the running time of 519s.
 %
@@ -714,26 +715,26 @@ We can come up with following conclusions.
 
 2) Mahout's precision is not good, especially for those datasets in which positive and negative instances are imbalanced.
           However, it is a representative example of sequential algorithm that can train massive data in acceptable time.
-          We monitor the memory when running Mahout and find that it is much lower than Liblinear. This is the advantage brought by both online algorithm and hashing operations on features.
-          Therefore, it provides good scalability guarantee. If you are in the situation of single machine with limited memory, sequential online training like Mahout is recommended.
+          When we monitor its memory when running, it is much lower than Liblinear. This is the advantage brought by both online algorithm and hashing operations on features.
+          Therefore, it provides good scalability guarantee. If you are in the situation of single machine and limited memory, sequential online training like Mahout is recommended.
 
 3) The precision of all sublinear methods is acceptable. The developed parallel sublinear algorithm only has a small drop in precision.
 
 4) Hadoop system has a drawback for running LR optimization methods. Its cluster programming model is based on acyclic data flow from stable storage to stable storage.
-          Though it has the benefits of deciding where to run tasks and can automatically recover from failures in runtime, the acyclic data flow is inefficient for iterative algorithms.
-          All six test programs contain a number of iterations, thus making PSUBPLR-MR perform poorly, even worse than sequential algorithms.
-          When we study the details of Hadoop implementation, we find that the starting time of MapReduce job in PSUBPLR-MR is about 20s. It consists of task configuration time and parameter passing time.
+          Though it has the benefits of deciding where to run tasks and can automatically recover from failures in runtime, acyclic data flow is inefficient for iterative algorithms.
+          All six test programs contain a number of iterations, thus making PSUBPLR-MR performs poorly, even worse than sequential algorithms.
+          When we study the details of Hadoop implementation, we find that the MapReduce job starting time in PSUBPLR-MR is about 20s. It consists of task configuration time and parameter passing time.
           This running time overhead is not negligible, especially when dataset is relatively small.
           We also identify that the running of ``Primal-Map" dominates the whole iteration time (more than 66\%). It is the same situation for PSUBPLR-SPARK.
 
-5) Spark employs the ``all-in-memory" strategy, and it constructs RDD on demand. We implement PGDPLR-SPARK and PSUBPLR-SPARK in the normal file system instead of HDFS.
+5) Spark employs the ``all-in-memory" strategy, and it constructs RDD on demand. We implement PGDPLR-SPARK and PSUBPLR-SPARK in normal file system instead of HDFS.
           Current results on Spark show that it is much more efficient than Hadoop, and performs better than Mahout.
           In the parallel situation, we recommend Spark to process massive data. Further, we recommend to choose PSUBPLR-SPARK for less running time in exchange for a little bit precision loss.
           As the platform is still under developing process, we expect that our running time results for PGDPLR-SPARK and PSUBPLR-SPARK can still be improved.
 
 6) Another interesting point we would like to raise is about dataset. If we compare \textbf{ECUESpam} dataset and \textbf{GISETTE} dataset.
           The former has higher data dimensionality but more sparse.
-          Comparing the data point between Figures~\ref{fig:time} (b) and (c), we can find that algorithms on \textbf{ECUESpam} dataset enjoy less running time per iteration than on \textbf{GISETTE} dataset as \textbf{ECUESpam} has fewer nonzero values involved in the computation.
+          Compare the data point between Figure~\ref{fig:time}(b) and~\ref{fig:time}(c) We can find that algorithms on \textbf{ECUESpam} dataset enjoy less running time per iteration than on \textbf{GISETTE} dataset as \textbf{ECUESpam} has fewer nonzero values involved in the computation.
           However, algorithms on \textbf{ECUESpam} dataset need more iterations than on \textbf{GISETTE} dataset, which is related to higher data dimensionality of \textbf{ECUESpam} dataset. This even causes more running time in total.
           To sum up, to get a general sense of running time for individual dataset, we need to consider both data volume and sparsity.
 
@@ -798,7 +799,7 @@ We can conclude that sequential algorithms with memory intensive operations like
 For massive datasets, if limited by machine resources, Mahout with its online algorithm is a good choice with a slightly lower precision.
 If machine resources are abundant, as Spark outperforms Hadoop for LR model training, we recommend choosing between parallel sublinear method and parallel gradient descent method (both on Spark) to trade off between speedup and precision.
 
-In future work, we will continue to explore the situations of even bigger datasets, and extend the results to multi-calss models of LR classifier. We also would like to focus on combining algorithm designs and computing platforms to optimize classifiers in machine learning.
+In future work, we will continue to explore the situations of even bigger dataset, and extend the results to multi-calss classification models of LR. We also would like to focus on combining algorithm design and computing platforms to optimize classifiers in machine learning.
 
 \begin{small}
 \bibliographystyle{plain}
