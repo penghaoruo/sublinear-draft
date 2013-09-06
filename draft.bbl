@@ -12,19 +12,6 @@ Dhruba Borthakur.
 \newblock {\em Hadoop Apache Project. http://hadoop. apache.
   org/common/docs/current/hdfs\_design. pdf}, 2008.
 
-\bibitem{chang2011foundations}
-Edward~Y Chang.
-\newblock {\em Foundations of Large-Scale Multimedia Information Management and
-  Retrieval}.
-\newblock Springerverlag Berlin Heidelberg and Tsinghua University Press, 2011.
-
-\bibitem{chang2011psvm}
-Edward~Y Chang, Kaihua Zhu, Hao Wang, Hongjie Bai, Jian Li, Zhihuan Qiu, and
-  Hang Cui.
-\newblock Psvm: Parallelizing support vector machines on distributed computers.
-\newblock {\em Advances in Neural Information Processing Systems}, 20:213--230,
-  2007.
-
 \bibitem{clarkson2010sublinear}
 K.L. Clarkson, E.~Hazan, and D.P. Woodruff.
 \newblock Sublinear optimization for machine learning.
@@ -52,11 +39,6 @@ Rong-En Fan, Kai-Wei Chang, Cho-Jui Hsieh, Xiang-Rui Wang, and Chih-Jen Lin.
 \newblock Liblinear: A library for large linear classification.
 \newblock {\em The Journal of Machine Learning Research}, 9:1871--1874, 2008.
 
-\bibitem{garberapproximating}
-D.~Garber and E.~Hazan.
-\newblock Approximating semidefinite programs in sublinear time.
-\newblock In {\em Advances in Neural Information Processing Systems}, 2011.
-
 \bibitem{guyon2004result}
 I.~Guyon, S.~Gunn, A.~Ben-Hur, and G.~Dror.
 \newblock Result analysis of the nips 2003 feature selection challenge.
@@ -74,31 +56,6 @@ E.~Hazan, T.~Koren, and N.~Srebro.
 \newblock Beating sgd: Learning svms in sublinear time.
 \newblock In {\em Advances in Neural Information Processing Systems}, 2011.
 
-\bibitem{kyrola2012graphchi}
-Aapo Kyrola, Guy Blelloch, and Carlos Guestrin.
-\newblock Graphchi: Large-scale graph computation on just a pc.
-\newblock In {\em Proceedings of the 10th conference on Symposium on Opearting
-  Systems Design \& Implementation}, 2012.
-
-\bibitem{le2011building}
-Quoc~V Le, Marc'Aurelio Ranzato, Rajat Monga, Matthieu Devin, Kai Chen, Greg~S
-  Corrado, Jeff Dean, and Andrew~Y Ng.
-\newblock Building high-level features using large scale unsupervised learning.
-\newblock {\em arXiv preprint arXiv:1112.6209}, 2011.
-
-\bibitem{lewis2008tastes}
-Kevin Lewis, Jason Kaufman, Marco Gonzalez, Andreas Wimmer, and Nicholas
-  Christakis.
-\newblock Tastes, ties, and time: A new social network dataset using facebook.
-  com.
-\newblock {\em Social Networks}, 30(4):330--342, 2008.
-
-\bibitem{Liu:2011:PPL:1961189.1961198}
-Zhiyuan Liu, Yuzhou Zhang, Edward~Y. Chang, and Maosong Sun.
-\newblock Plda+: Parallel latent dirichlet allocation with data placement and
-  pipeline processing.
-\newblock {\em ACM Trans. Intell. Syst. Technol.}, 2(3):26:1--26:18, May 2011.
-
 \bibitem{ma2009identifying}
 Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
 \newblock Identifying suspicious urls: an application of large-scale online
@@ -110,12 +67,6 @@ Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
 Apache Mahout.
 \newblock Scalable machine-learning and data-mining library.
 \newblock {\em available at mahout. apache. org}.
-
-\bibitem{newman2007distributed}
-David Newman, Arthur Asuncion, Padhraic Smyth, and Max Welling.
-\newblock Distributed inference for latent dirichlet allocation.
-\newblock {\em Advances in neural information processing systems},
-  20(1081-1088):17--24, 2007.
 
 \bibitem{page1999pagerank}
 Lawrence Page, Sergey Brin, Rajeev Motwani, and Terry Winograd.
