@@ -3,55 +3,50 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: draft.aux
 The style file: plain.bst
 Database file #1: mlpaper.bib
-Repeated entry---line 235 of file mlpaper.bib
- : @article{xiao2010dual
- :                      ,
-I'm skipping whatever remains of this entry
 Repeated entry---line 423 of file mlpaper.bib
  : @incollection{peng2012sublinear
  :                                ,
 I'm skipping whatever remains of this entry
 Warning--empty year in mahoutscalable
-Warning--empty journal in page1999pagerank
-You've used 20 entries,
+You've used 24 entries,
             2118 wiz_defined-function locations,
-            614 strings with 7534 characters,
-and the built_in function-call counts, 7339 in all, are:
-= -- 722
-> -- 370
-< -- 6
-+ -- 151
-- -- 126
-* -- 496
-:= -- 1207
-add.period$ -- 65
-call.type$ -- 20
-change.case$ -- 121
+            634 strings with 8343 characters,
+and the built_in function-call counts, 8908 in all, are:
+= -- 869
+> -- 457
+< -- 7
++ -- 183
+- -- 156
+* -- 607
+:= -- 1460
+add.period$ -- 78
+call.type$ -- 24
+change.case$ -- 146
 chr.to.int$ -- 0
-cite$ -- 22
-duplicate$ -- 289
-empty$ -- 553
-format.name$ -- 126
-if$ -- 1547
+cite$ -- 25
+duplicate$ -- 351
+empty$ -- 679
+format.name$ -- 156
+if$ -- 1886
 int.to.chr$ -- 0
-int.to.str$ -- 20
-missing$ -- 22
-newline$ -- 103
-num.names$ -- 40
-pop$ -- 145
+int.to.str$ -- 24
+missing$ -- 28
+newline$ -- 123
+num.names$ -- 48
+pop$ -- 180
 preamble$ -- 1
-purify$ -- 103
+purify$ -- 126
 quote$ -- 0
-skip$ -- 198
+skip$ -- 239
 stack$ -- 0
-substring$ -- 419
-swap$ -- 75
-text.length$ -- 6
+substring$ -- 499
+swap$ -- 91
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 76
-warning$ -- 2
-while$ -- 68
-width$ -- 22
-write$ -- 218
-(There were 2 error messages)
+type$ -- 88
+warning$ -- 1
+while$ -- 80
+width$ -- 26
+write$ -- 263
+(There was 1 error message)

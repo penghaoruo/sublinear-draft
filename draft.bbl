@@ -1,16 +1,34 @@
 \begin{thebibliography}{10}
 
-\bibitem{androutsopoulos2000evaluation}
-Ion Androutsopoulos, John Koutsias, Konstantinos~V Chandrinos, George
-  Paliouras, and Constantine~D Spyropoulos.
-\newblock An evaluation of naive bayesian anti-spam filtering.
-\newblock {\em arXiv preprint cs/0006013}, 2000.
+\bibitem{Bekkerman2012}
+Ron Bekkerman, Mikhail Bilenko, and John Langford.
+\newblock {\em Scaling Up Machine Learning}.
+\newblock Cambridge University Press, 2012.
 
 \bibitem{borthakur2008hdfs}
 Dhruba Borthakur.
 \newblock Hdfs architecture guide.
 \newblock {\em Hadoop Apache Project. http://hadoop. apache.
   org/common/docs/current/hdfs\_design. pdf}, 2008.
+
+\bibitem{chang2011foundations}
+Edward~Y Chang.
+\newblock {\em Foundations of Large-Scale Multimedia Information Management and
+  Retrieval}.
+\newblock Springerverlag Berlin Heidelberg and Tsinghua University Press, 2011.
+
+\bibitem{chang2011psvm}
+Edward~Y Chang, Kaihua Zhu, Hao Wang, Hongjie Bai, Jian Li, Zhihuan Qiu, and
+  Hang Cui.
+\newblock Psvm: Parallelizing support vector machines on distributed computers.
+\newblock {\em Advances in Neural Information Processing Systems}, 20:213--230,
+  2007.
+
+\bibitem{Chen5444877}
+Wen-Yen Chen, Yangqiu Song, Hongjie Bai, Chih-Jen Lin, and E.Y. Chang.
+\newblock Parallel spectral clustering in distributed systems.
+\newblock {\em Pattern Analysis and Machine Intelligence, IEEE Transactions
+  on}, 33(3):568--586, 2011.
 
 \bibitem{clarkson2010sublinear}
 K.L. Clarkson, E.~Hazan, and D.P. Woodruff.
@@ -39,6 +57,11 @@ Rong-En Fan, Kai-Wei Chang, Cho-Jui Hsieh, Xiang-Rui Wang, and Chih-Jen Lin.
 \newblock Liblinear: A library for large linear classification.
 \newblock {\em The Journal of Machine Learning Research}, 9:1871--1874, 2008.
 
+\bibitem{garberapproximating}
+D.~Garber and E.~Hazan.
+\newblock Approximating semidefinite programs in sublinear time.
+\newblock In {\em Advances in Neural Information Processing Systems}, 2011.
+
 \bibitem{guyon2004result}
 I.~Guyon, S.~Gunn, A.~Ben-Hur, and G.~Dror.
 \newblock Result analysis of the nips 2003 feature selection challenge.
@@ -51,10 +74,28 @@ T.~Hastie, R.~Tishirani, and J.~Friedman.
   and Prediction}.
 \newblock Springer-Verlag, New York, 2001.
 
+\bibitem{hazan2011optimal}
+E.~Hazan and T.~Koren.
+\newblock Optimal algorithms for ridge and lasso regression with partially
+  observed attributes.
+\newblock {\em Arxiv preprint arXiv:1108.4559}, 2011.
+
 \bibitem{hazanbeating}
 E.~Hazan, T.~Koren, and N.~Srebro.
 \newblock Beating sgd: Learning svms in sublinear time.
 \newblock In {\em Advances in Neural Information Processing Systems}, 2011.
+
+\bibitem{Li:2008:PPF:1454008.1454027}
+Haoyuan Li, Yi~Wang, Dong Zhang, Ming Zhang, and Edward~Y. Chang.
+\newblock Pfp: parallel fp-growth for query recommendation.
+\newblock In {\em Proceedings of the 2008 ACM conference on Recommender
+  systems}, RecSys '08, pages 107--114. ACM, 2008.
+
+\bibitem{Liu:2011:PPL:1961189.1961198}
+Zhiyuan Liu, Yuzhou Zhang, Edward~Y. Chang, and Maosong Sun.
+\newblock Plda+: Parallel latent dirichlet allocation with data placement and
+  pipeline processing.
+\newblock {\em ACM Trans. Intell. Syst. Technol.}, 2(3):26:1--26:18, May 2011.
 
 \bibitem{ma2009identifying}
 Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
@@ -67,11 +108,6 @@ Justin Ma, Lawrence~K Saul, Stefan Savage, and Geoffrey~M Voelker.
 Apache Mahout.
 \newblock Scalable machine-learning and data-mining library.
 \newblock {\em available at mahout. apache. org}.
-
-\bibitem{page1999pagerank}
-Lawrence Page, Sergey Brin, Rajeev Motwani, and Terry Winograd.
-\newblock The pagerank citation ranking: bringing order to the web.
-\newblock 1999.
 
 \bibitem{peng2012sublinear}
 Haoruo Peng, Zhengyu Wang, Edward~Y Chang, Shuchang Zhou, and Zhihua Zhang.
@@ -86,21 +122,10 @@ Badrul Sarwar, George Karypis, Joseph Konstan, and John Riedl.
 \newblock In {\em Proceedings of the 10th international conference on World
   Wide Web}, pages 285--295. ACM, 2001.
 
-\bibitem{subhlok1993exploiting}
-Jaspal Subhlok, James~M Stichnoth, David~R O'hallaron, and Thomas Gross.
-\newblock Exploiting task and data parallelism on a multicomputer.
-\newblock {\em ACM SIGPLAN Notices}, 28(7):13--22, 1993.
-
 \bibitem{white2012hadoop}
 Tom White.
 \newblock {\em Hadoop: The definitive guide}.
 \newblock O'Reilly Media, Inc., 2012.
-
-\bibitem{xiao2010dual}
-L.~Xiao.
-\newblock Dual averaging methods for regularized stochastic learning and online
-  optimization.
-\newblock {\em The Journal of Machine Learning Research}, 11:2543--2596, 2010.
 
 \bibitem{zaharia2010spark}
 Matei Zaharia, Mosharaf Chowdhury, Michael~J Franklin, Scott Shenker, and Ion
